@@ -38,7 +38,7 @@ public class show_modes extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        tranction("https://gss0.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/d50735fae6cd7b8963e0d37b042442a7d8330ebe.jpg");
+      //  tranction("https://gss0.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/d50735fae6cd7b8963e0d37b042442a7d8330ebe.jpg");
         initModes();
 
         modesAdapter adapter = new modesAdapter(getActivity(), R.layout.activity_modes,mos);
@@ -56,17 +56,17 @@ public class show_modes extends Fragment {
     遍历数据
      */
     private void initModes() {
-        Modes m=new Modes(bit,"352 X83空气净器","京东商城","3000");
+        Modes m=new Modes("http://g-search1.alicdn.com/img/bao/uploaded/i4/TB184Y0SpXXXXazaXXXXXXXXXXX.jpg","352 X83空气净器","京东商城"+":","价格为:￥"+"3000","月销量:"+"2000");
         mos.add(m);
-        Modes m1 = new Modes(bit,"352 X83空气净器","京东商城","3000");
+        Modes m1 = new Modes("http://g-search1.alicdn.com/img/bao/uploaded/i4/TB1ZKT2SpXXXXc2aXXXXXXXXXXX.jpg","352 X83空气净器","京东商城","价格为:￥:"+"2000","月销量:"+"2000");
         mos.add(m1);
-        Modes m2=new Modes(bit,"352 X83空气净器","京东商城","3000");
+        Modes m2=new Modes("http://g-search2.alicdn.com/img/bao/uploaded/i4/i4/TB1BH0NbBjTBKNjSZFwXXcG4XXa.jpg","352 X83空气净器","京东商城","价格为:￥:"+"1000","月销量:"+"1000");
         mos.add(m2);
-        Modes m3 = new Modes(bit,"352 X83空气净器","京东商城","3000");
+        Modes m3 = new Modes("http://g-search3.alicdn.com/img/bao/uploaded/i4/TB1DcfxaborBKNjSZFjXXc_SpXa.jpg","352 X83空气净器","京东商城","价格为:￥:"+"1500","月销量:"+"1000");
         mos.add(m3);
-        Modes m4=new Modes(bit,"352 X83空气净器","京东商城","3000");
+        Modes m4=new Modes("http://g-search3.alicdn.com/img/bao/uploaded/i4/TB1DcfxaborBKNjSZFjXXc_SpXa.jpg","352 X83空气净器","京东商城","价格为:￥:"+"4500","月销量:"+"200");
         mos.add(m4);
-        Modes m5 = new Modes(bit,"352 X83空气净器","京东商城","3000");
+        Modes m5 = new Modes("http://g-search3.alicdn.com/img/bao/uploaded/i4/TB1DcfxaborBKNjSZFjXXc_SpXa.jpg","352 X83空气净器","京东商城","价格为:￥:"+"8000","月销量:"+"354");
         mos.add(m5);
     }
     /**

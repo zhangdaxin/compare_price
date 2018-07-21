@@ -8,20 +8,22 @@ import android.graphics.Bitmap;
  */
 
 public class Modes {
-    private Bitmap img;
+    private String img;
     private String  message;
     private String shop;
     private String price;
+    private String month_sales;
 
-    public Modes(Bitmap img ,String message,String shop,String price)
+    public Modes(String img ,String message,String shop,String price,String month_sales)
     {
         this.img=img;
         this.message=message;
         this.shop=shop;
         this.price=price;
+        this.month_sales=month_sales;
     }
 
-    public Bitmap getImg() {
+    public String getImg() {
        return img;
     }
 
@@ -35,5 +37,9 @@ public class Modes {
 
     public String getShop() {
         return shop;
+    }
+
+    public String getMonth_sales() {
+        return month_sales;
     }
 }

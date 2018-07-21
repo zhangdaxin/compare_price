@@ -1,14 +1,16 @@
 package com.example.xiangmu;
 
 import android.util.Log;
-
+//import com.google.gson.Gson;
 import com.example.xiangmu.main_layout.search_main;
 import com.example.xiangmu.main_layout.search_page;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+//import com.google.gson.JsonElement;
+//import com.google.gson.JsonObject;
+//import com.google.gson.JsonParser;
 
 import java.io.IOException;
+
+import middle_commodity.MyPojo;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -45,11 +47,22 @@ public class Getdata {
                     /*
                     反序列化
                      */
-                    JsonParser jsonParser = new JsonParser();
-                    JsonElement userJsonElement =jsonParser.parse(responseData);
-                    JsonObject userJsonObject = userJsonElement.getAsJsonObject();
+//                    JsonParser jsonParser = new JsonParser();
+//                    JsonElement userJsonElement =jsonParser.(responseData);
+//                    userJsonElement.get
 
-                    Log.d("userJsonObject", "run: "+userJsonObject);
+//                    Gson gson = new Gson();
+//                    MyPojo newMyObj = gson.fromJson(responseData, MyPojo.class);
+//                    Data dt=newMyObj.getMods().getGrid().getData();
+
+//                  for (int i=0;i<dt.;i++)
+//                  {
+//
+//                  }
+
+                    //JsonObject userJsonObject = userJsonElement.getAsJsonObject();
+
+//                    Log.d("userJsonObject", "run: "+userJsonObject);
                     search_main.dialog.dismiss();
                 } catch (IOException e) {
                     e.printStackTrace();
