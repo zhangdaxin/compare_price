@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFF"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+        <!--<ImageView-->
+            <!--android:id="@+id/return6"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="20dp"-->
+            <!--android:layout_weight="0.2"-->
+            <!--android:src="@drawable/small"-->
+            <!--/>-->
+        <!--<LinearLayout-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@drawable/compareprice_input_text">-->
+            <!--<ImageView-->
+                <!--android:layout_width="30dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:src="@drawable/search"-->
+                <!--/>-->
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/search_1"
+            />
+            <EditText
+                android:id="@+id/search_keyword1"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="1.5"
+                android:hint="请输入关键字进行比价"
+                android:textSize="18sp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/compareprice_input_text"
+                />
+        <!--</LinearLayout>-->
+        
+    </LinearLayout>
+     <FrameLayout
+         android:id="@+id/history_1"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"/>
+</LinearLayout>

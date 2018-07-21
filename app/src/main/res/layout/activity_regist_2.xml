@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_marginTop="30dp"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="10dp"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/key" />
+
+        <EditText
+            android:id="@+id/password_1"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/line_et_bg"
+            android:hint="请输入密码:"
+            android:layout_marginLeft="9dp"
+            android:textColor="#fa6d6f"
+            android:textColorHint="#fa6d6f"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/key" />
+        <EditText
+            android:id="@+id/password_2"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="请重新输入密码:"
+            android:background="@drawable/line_et_bg"
+            android:layout_marginLeft="10dp"
+            android:textColor="#fa6d6f"
+            android:textColorHint="#fa6d6f"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        >
+
+        <ImageView
+            android:layout_width="26dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/message" />
+        <EditText
+            android:id="@+id/code"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="9dp"
+            android:background="@drawable/line_et_bg"
+            android:hint="请输入验证码:"
+            android:textColor="#fa6d6f"
+            android:textColorHint="#fa6d6f" />
+        <ImageView
+            android:id="@+id/iv_showCode"
+            android:layout_width="100dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="20dp"
+        >
+        <Button
+            android:id="@+id/regist_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_button"
+            android:layout_weight="1"
+            android:text="注册"
+            android:textColor="#FFFF"
+            android:layout_marginLeft="20dp"
+            />
+        <Button
+            android:id="@+id/cancel_3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="150dp"
+            android:background="@drawable/shape_button1"
+            android:text="取消"
+            android:layout_marginRight="20dp"
+            android:textColor="#0e0e0e"
+            />
+    </LinearLayout>
+
+</LinearLayout>
