@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.xiangmu.R;
 
 import java.util.List;
+import static com.example.xiangmu.Gethistorical_item.list;
 
 public class history_adapter extends ArrayAdapter<historical_item> {
    private int resourceId;
@@ -40,7 +41,7 @@ public class history_adapter extends ArrayAdapter<historical_item> {
             view=convertView;
             viewHolder=(ViewHolder)view.getTag();
         }
-        viewHolder.history.setText(his.getItem());
+        viewHolder.history.setText(list.get(position).getItem());
         return view;
     }
     class ViewHolder {

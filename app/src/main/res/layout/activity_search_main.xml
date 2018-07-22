@@ -42,6 +42,7 @@
             android:layout_weight="1.5"
             android:hint="请输入关键字进行比价"
             android:textSize="18sp"
+            android:padding="5dp"
             android:layout_marginLeft="8dp"
             android:background="@drawable/compareprice_input_text"
             />

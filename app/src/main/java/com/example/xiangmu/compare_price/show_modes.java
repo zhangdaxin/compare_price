@@ -25,8 +25,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import middle_commodity.Spus;
+
 public class show_modes extends Fragment {
-  private List<Modes> mos=new ArrayList<Modes>();
+  private List<Spus> mos=new ArrayList<Spus>();
   Bitmap bit;
     @Nullable
     @Override
@@ -38,33 +40,33 @@ public class show_modes extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initModes();
-        modesAdapter adapter = new modesAdapter(getActivity(), R.layout.activity_modes,mos);
+        initSpus();
+        SpusAdapter adapter = new SpusAdapter(getActivity(), R.layout.activity_modes,mos);
         ListView listView =getActivity().findViewById(R.id.modes);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Modes m=mos.get(position);
-                Toast.makeText(getActivity(),m.getMessage(), Toast.LENGTH_SHORT).show();
+               Spus s=mos.get(position);
+               Toast.makeText(getActivity(),s.getTitle(), Toast.LENGTH_SHORT).show();
             }
         });
     }
     /*
     遍历数据
      */
-    private void initModes() {
-        Modes m=new Modes("http:"+"//g-search1.alicdn.com/img/bao/uploaded/i4/TB184Y0SpXXXXazaXXXXXXXXXXX.jpg","352 X83空气净器","京东商城"+":","价格为:￥"+"3000","月销量: "+"2000");
+    private void initSpus() {
+        Spus m=new Spus("http:"+"//g-search1.alicdn.com/img/bao/uploaded/i4/TB184Y0SpXXXXazaXXXXXXXXXXX.jpg","352 X83空气净器","京东商城"+":","价格为:￥"+"3000","月销量: "+"2000");
         mos.add(m);
-        Modes m1 = new Modes("http:"+"//g-search1.alicdn.com/img/bao/uploaded/i4/TB1ZKT2SpXXXXc2aXXXXXXXXXXX.jpg","352 X83空气净器","京东商城","价格为:￥"+"2000","月销量: "+"2000");
+        Spus m1 = new Spus("http:"+"//g-search1.alicdn.com/img/bao/uploaded/i4/TB1ZKT2SpXXXXc2aXXXXXXXXXXX.jpg","352 X83空气净器","京东商城","价格为:￥"+"2000","月销量: "+"2000");
         mos.add(m1);
-        Modes m2=new Modes("http:"+"//g-search2.alicdn.com/img/bao/uploaded/i4/i4/TB1BH0NbBjTBKNjSZFwXXcG4XXa.jpg","352 X83空气净器","京东商城","价格为:￥"+"1000","月销量: "+"1000");
+        Spus m2=new Spus("http:"+"//g-search2.alicdn.com/img/bao/uploaded/i4/i4/TB1BH0NbBjTBKNjSZFwXXcG4XXa.jpg","352 X83空气净器","京东商城","价格为:￥"+"1000","月销量: "+"1000");
         mos.add(m2);
-        Modes m3 = new Modes("http:"+"//g-search3.alicdn.com/img/bao/uploaded/i4/TB1DcfxaborBKNjSZFjXXc_SpXa.jpg","352 X83空气净器","京东商城","价格为:￥"+"1500","月销量: "+"1000");
+        Spus m3 = new Spus("http:"+"//g-search3.alicdn.com/img/bao/uploaded/i4/TB1DcfxaborBKNjSZFjXXc_SpXa.jpg","352 X83空气净器","京东商城","价格为:￥"+"1500","月销量: "+"1000");
         mos.add(m3);
-        Modes m4=new Modes("http:"+"//g-search3.alicdn.com/img/bao/uploaded/i4/TB1DcfxaborBKNjSZFjXXc_SpXa.jpg","352 X83空气净器","京东商城","价格为:￥"+"4500","月销量: "+"200");
+        Spus m4=new Spus("http:"+"//g-search3.alicdn.com/img/bao/uploaded/i4/TB1DcfxaborBKNjSZFjXXc_SpXa.jpg","352 X83空气净器","京东商城","价格为:￥"+"4500","月销量: "+"200");
         mos.add(m4);
-        Modes m5 = new Modes("http:"+"//g-search3.alicdn.com/img/bao/uploaded/i4/TB1DcfxaborBKNjSZFjXXc_SpXa.jpg","352 X83空气净器","京东商城","价格为:￥"+"8000","月销量: "+"354");
+        Spus m5 = new Spus("http:"+"//g-search3.alicdn.com/img/bao/uploaded/i4/TB1DcfxaborBKNjSZFjXXc_SpXa.jpg","352 X83空气净器","京东商城","价格为:￥"+"8000","月销量: "+"354");
         mos.add(m5);
     }
 

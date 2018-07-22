@@ -120,96 +120,96 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent=new Intent(MainActivity.this,main_layout.class);
                 startActivity(intent);
 
-//                progressDialog.show();
-//                final String lg_phone=phone1.getText().toString();
-//                final String lg_password=password.getText().toString();
-//                if(lg_password.length()<6)
-//                {
-//                    progressDialog.dismiss();
-//                    Toast.makeText(this, "密码长度不能少于6位！请重新输入!", Toast.LENGTH_SHORT).show();
-//                }
-//
-//                if(lg_phone==null)
-//                {
-//                    progressDialog.dismiss();
-//                    Toast.makeText(this, "手机号不能为空!", Toast.LENGTH_SHORT).show();
-//                }else if(lg_password==null)
-//                {
-//                    progressDialog.dismiss();
-//                    Toast.makeText(this, "密码不能为空1", Toast.LENGTH_SHORT).show();
-//                }
-//                else if(lg_phone.length()==11&&lg_password.length()>=6) {
-//
-//                    new Thread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//
-//                            OkHttpClient client = new OkHttpClient();
-//
-//                            RequestBody requestBody = new FormBody.Builder()
-//                                    .add("phone", lg_phone)
-//                                    .add("userpassword", lg_password)
-//                                    .build();
-//
-//                            Request request = new Request.Builder()
-//                                    .url("http://"+ Ip.ip+":8080/project/UserLoginServlet")
-//                                    .post(requestBody)
-//                                    .build();
-//
-//                            try {
-//                                Response response = client.newCall(request).execute();
-//                                Log.d(TAG, "run: "+response);
-//                                String responseData = response.body().string();
-//                                Log.d(TAG, "run: "+responseData);
-//                                if (response != null && response.isSuccessful()) {
-//
-//                                    JSONObject jsonObject=new JSONObject(responseData);
-//                                    userid=jsonObject.getString("userid");
-//                                    id=Integer.parseInt(userid);
-//                                    phone=jsonObject.getString("phone");
-//                                    if (id!=0||!phone.equals("")) {
-//                                        password1=jsonObject.getString("userpassword");
-//
-//                                        username=jsonObject.getString("username");
-//
-//                                        sex=jsonObject.getString("sex");
-//
-//                                        image=jsonObject.getString("image");
-//
-//                                        Log.d(TAG, "zhang: "+username+" "+sex+" "+password1);
-//
-//                                        handler.sendEmptyMessage(SUCCESS);
-//                                    } else if(id==0||phone.equals("")){
-//
-//                                        handler.sendEmptyMessage(FAIL);
-//                                    }
-//                                } else {
-//                                    handler.sendEmptyMessage(ERROR);
-//                                }
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//
-//                    }).start();
-//                }else if(lg_phone.length()<11)
-//                {
-//                    progressDialog.dismiss();
-//                    Toast.makeText(this, "手机号码输入错误!请重新输入!", Toast.LENGTH_SHORT).show();
-//                }
-//                break;
-//
-//            case R.id.forget_key:
-//                 intent=new Intent(MainActivity.this,Forget_key.class);
-//                 startActivity(intent);
-//                break;
-//            case R.id.regist_1:
-//                intent = new Intent(MainActivity.this, Regist_Activity.class);
-//                startActivity(intent);
-//                break;
-//            case R.id.message_1:
-//                intent = new Intent(MainActivity.this, PhoneLoginActivity.class);
-//                startActivity(intent);
+                progressDialog.show();
+                final String lg_phone=phone1.getText().toString();
+                final String lg_password=password.getText().toString();
+                if(lg_password.length()<6)
+                {
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "密码长度不能少于6位！请重新输入!", Toast.LENGTH_SHORT).show();
+                }
+
+                if(lg_phone==null)
+                {
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "手机号不能为空!", Toast.LENGTH_SHORT).show();
+                }else if(lg_password==null)
+                {
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "密码不能为空1", Toast.LENGTH_SHORT).show();
+                }
+                else if(lg_phone.length()==11&&lg_password.length()>=6) {
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            OkHttpClient client = new OkHttpClient();
+
+                            RequestBody requestBody = new FormBody.Builder()
+                                    .add("phone", lg_phone)
+                                    .add("userpassword", lg_password)
+                                    .build();
+
+                            Request request = new Request.Builder()
+                                    .url("http://"+ Ip.ip+":8080/project/UserLoginServlet")
+                                    .post(requestBody)
+                                    .build();
+
+                            try {
+                                Response response = client.newCall(request).execute();
+                                Log.d(TAG, "run: "+response);
+                                String responseData = response.body().string();
+                                Log.d(TAG, "run: "+responseData);
+                                if (response != null && response.isSuccessful()) {
+
+                                    JSONObject jsonObject=new JSONObject(responseData);
+                                    userid=jsonObject.getString("userid");
+                                    id=Integer.parseInt(userid);
+                                    phone=jsonObject.getString("phone");
+                                    if (id!=0||!phone.equals("")) {
+                                        password1=jsonObject.getString("userpassword");
+
+                                        username=jsonObject.getString("username");
+
+                                        sex=jsonObject.getString("sex");
+
+                                        image=jsonObject.getString("image");
+
+                                        Log.d(TAG, "zhang: "+username+" "+sex+" "+password1);
+
+                                        handler.sendEmptyMessage(SUCCESS);
+                                    } else if(id==0||phone.equals("")){
+
+                                        handler.sendEmptyMessage(FAIL);
+                                    }
+                                } else {
+                                    handler.sendEmptyMessage(ERROR);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }).start();
+                }else if(lg_phone.length()<11)
+                {
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "手机号码输入错误!请重新输入!", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+            case R.id.forget_key:
+                 intent=new Intent(MainActivity.this,Forget_key.class);
+                 startActivity(intent);
+                break;
+            case R.id.regist_1:
+                intent = new Intent(MainActivity.this, Regist_Activity.class);
+                startActivity(intent);
+                break;
+            case R.id.message_1:
+                intent = new Intent(MainActivity.this, PhoneLoginActivity.class);
+                startActivity(intent);
         }
    }
 

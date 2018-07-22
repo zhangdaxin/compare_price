@@ -18,14 +18,16 @@ import com.example.xiangmu.R;
 import java.io.InputStream;
 import java.util.List;
 
-public class modesAdapter extends ArrayAdapter<Modes> {
+import middle_commodity.Spus;
+
+public class SpusAdapter extends ArrayAdapter<Spus> {
 
 private int resourceId;
 
 /*
 适配器
  */
-    public modesAdapter(@NonNull Context context, int resource, @NonNull List<Modes> objects) {
+    public SpusAdapter(@NonNull Context context, int resource, @NonNull List<Spus> objects) {
         super(context, resource, objects);
         resourceId=resource;
     }
@@ -33,7 +35,7 @@ private int resourceId;
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        Modes m=getItem(position);
+        Spus s=getItem(position);
         View view;
         ViewHolder viewHolder;
         if(convertView==null)
@@ -54,12 +56,12 @@ private int resourceId;
             viewHolder=(ViewHolder)view.getTag();
         }
         new DownloadImageTask((ImageView) view.findViewById(R.id.pic_modes))
-                .execute(m.getImg());
+                .execute(s.getPic_url());
         viewHolder.img=view.findViewById(R.id.pic_modes);
-        viewHolder.introduction1.setText(m.getMessage());
-        viewHolder.shop1.setText(m.getShop());
-        viewHolder.price1.setText(m.getPrice());
-        viewHolder.months_sales.setText(m.getMonth_sales());
+        viewHolder.introduction1.setText(s.getTitle());
+        viewHolder.shop1.setText(s.getShop());
+        viewHolder.price1.setText(s.getPrice());
+        viewHolder.months_sales.setText(s.getMonth_sales());
 
         return view;
     }

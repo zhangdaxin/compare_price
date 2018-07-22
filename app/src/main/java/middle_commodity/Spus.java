@@ -17,6 +17,8 @@ public class Spus {
 
     private String pic_url;
 
+    private String shop;
+
     private String url;
 
     private String title;
@@ -30,6 +32,18 @@ public class Spus {
     private Tag_info[] tag_info;
 
     private String importantKey;
+
+    public Spus(String pic_url,String title,String shop,String price,String month_sales){
+    this.pic_url=pic_url;
+    this.title=title;
+    this.shop=shop;
+    this.price=price;
+    this.month_sales=month_sales;
+    }
+
+    public String getShop() {
+        return shop;
+    }
 
     public String[] getSpecialTag ()
     {
