@@ -9,57 +9,34 @@ import main_commodity.Mods;
  */
 
 public class MyPojo {
-    private String pageName;
+        private String status;
 
-    private MainInfo mainInfo;
+        private Data data;
 
-    private Feature feature;
+        public String getStatus ()
+        {
+            return status;
+        }
 
-    private Mods mods;
+        public void setStatus (String status)
+        {
+            this.status = status;
+        }
 
-    public String getPageName ()
-    {
-        return pageName;
+        public Data getData ()
+        {
+            return data;
+        }
+
+        public void setData (Data data)
+        {
+            this.data = data;
+        }
+
+        @Override
+        public String toString()
+        {
+            return "ClassPojo [status = "+status+", data = "+data+"]";
+        }
     }
 
-    public void setPageName (String pageName)
-    {
-        this.pageName = pageName;
-    }
-
-    public MainInfo getMainInfo ()
-    {
-        return mainInfo;
-    }
-
-    public void setMainInfo (MainInfo mainInfo)
-    {
-        this.mainInfo = mainInfo;
-    }
-
-    public Feature getFeature ()
-    {
-        return feature;
-    }
-
-    public void setFeature (Feature feature)
-    {
-        this.feature = feature;
-    }
-
-    public Mods getMods ()
-    {
-        return mods;
-    }
-
-    public void setMods (Mods mods)
-    {
-        this.mods = mods;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "ClassPojo [pageName = "+pageName+", mainInfo = "+mainInfo+", feature = "+feature+", mods = "+mods+"]";
-    }
-}

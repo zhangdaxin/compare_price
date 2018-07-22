@@ -85,7 +85,6 @@ public class home_page extends Fragment implements View.OnClickListener {
         view = LayoutInflater.from(getActivity()).inflate(R.layout.voice_dialog, null);
         //初始化控件
 //        saveUri = Uri.fromFile(new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_DCIM),"1.jpg"));
-
         input=getActivity().findViewById(R.id.input_text_cp);
         voice=getActivity().findViewById(R.id.voice);
         cross1=view.findViewById(R.id.cross);

@@ -4,6 +4,7 @@ import android.util.Log;
 //import com.google.gson.Gson;
 import com.example.xiangmu.main_layout.search_main;
 import com.example.xiangmu.main_layout.search_page;
+import com.google.gson.Gson;
 //import com.google.gson.JsonElement;
 //import com.google.gson.JsonObject;
 //import com.google.gson.JsonParser;
@@ -50,10 +51,10 @@ public class Getdata {
 //                    JsonParser jsonParser = new JsonParser();
 //                    JsonElement userJsonElement =jsonParser.(responseData);
 //                    userJsonElement.get
-
-//                    Gson gson = new Gson();
-//                    MyPojo newMyObj = gson.fromJson(responseData, MyPojo.class);
-//                    Data dt=newMyObj.getMods().getGrid().getData();
+                    Gson gson = new Gson();
+                    MyPojo newMyObj = gson.fromJson(responseData, MyPojo.class);
+                    Data dt=newMyObj.getMods().getGrid().getData();
+                    Log.d("dt", "run: "+dt);
 
 //                  for (int i=0;i<dt.;i++)
 //                  {
