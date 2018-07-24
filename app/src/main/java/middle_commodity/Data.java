@@ -2,14 +2,14 @@ package middle_commodity;
 
 public class Data
 {
-    private Spus[] spus;
+    private Spus spus;
 
-    public Spus[] getSpus ()
+    public Spus getSpus ()
     {
         return spus;
     }
 
-    public void setSpus (Spus[] spus)
+    public void setSpus (Spus spus)
     {
         this.spus = spus;
     }

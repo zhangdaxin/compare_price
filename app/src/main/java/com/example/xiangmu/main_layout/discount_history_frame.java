@@ -1,5 +1,6 @@
 package com.example.xiangmu.main_layout;
 
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,12 +18,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.xiangmu.Getdata;
-import com.example.xiangmu.Gethistorical_item;
+import com.example.xiangmu.Gethistorical_item1;
 import com.example.xiangmu.Ip;
 import com.example.xiangmu.Log_Regist_Forget.MainActivity;
 import com.example.xiangmu.R;
-import com.example.xiangmu.compare_price.show_modes;
 
 import java.io.IOException;
 
@@ -32,17 +31,18 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static com.example.xiangmu.Gethistorical_item.list;
+import static com.example.xiangmu.Gethistorical_item1.list;
 
-public class frame_history extends Fragment implements View.OnClickListener {
-    public  ProgressDialog progressDialog;
+public class discount_history_frame extends Fragment implements View.OnClickListener {
+
+    public ProgressDialog progressDialog;
     EditText et;
-    Button remove_history;
+    Button remove_history1;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       View view=inflater.inflate(R.layout.activity_history_1,container,false);
-       return view;
+        View view=inflater.inflate(R.layout.activity_discount_history,container,false);
+        return view;
     }
 
     @Override
@@ -50,19 +50,19 @@ public class frame_history extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         initView();
         initListener();
-        Gethistorical_item.get();
-        history_adapter adapter = new history_adapter(getActivity(), R.layout.activity_history,list);
-        ListView listView=getActivity().findViewById(R.id.historical_search);
+        Gethistorical_item1.get();
+        history_adapter1 adapter = new history_adapter1(getActivity(), R.layout.activity_history2,list);
+        ListView listView=getActivity().findViewById(R.id.discount_history);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 historical_item his=list.get(position);
-                search_main.searchkeyword=his.getItem();
+                discount_page1.discountkeyword=his.getItem();
                 progressDialog.show();
-                Getdata.get();
-                et.setHint(search_main.searchkeyword);
-                replaceFragment(new show_modes());
+              //  Getdata.get();
+                et.setHint(discount_page1.discountkeyword);
+               // replaceFragment(new show_modes());
                 progressDialog.dismiss();
                 Toast.makeText(getActivity(), his.getItem(), Toast.LENGTH_SHORT).show();
             }
@@ -71,7 +71,7 @@ public class frame_history extends Fragment implements View.OnClickListener {
     }
 
     private void initListener() {
-        remove_history.setOnClickListener(this);
+        remove_history1.setOnClickListener(this);
     }
 
     private void initView() {
@@ -80,26 +80,26 @@ public class frame_history extends Fragment implements View.OnClickListener {
         progressDialog.setMessage("请稍后...");
         progressDialog .setCancelable(false);
 
-        remove_history=getActivity().findViewById(R.id.remove_history);
+        remove_history1=getActivity().findViewById(R.id.remove_history1);
         LayoutInflater inflater = getActivity().getLayoutInflater();                             //先获取当前布局的填充器
-        View view1 = inflater.inflate(R.layout.activity_search_main, null);   //通过填充器获取另外一个布局的对象
-        et=view1.findViewById(R.id.search_keyword);
-}
+        View view1 = inflater.inflate(R.layout.activity_discount_page1, null);   //通过填充器获取另外一个布局的对象
+        et=view1.findViewById(R.id.discount_keyword);
+    }
 
     public void replaceFragment(Fragment fragment)
     {
         FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.history_1,fragment);
+        fragmentTransaction.replace(R.id.history_2,fragment);
         fragmentTransaction.commit();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.remove_history:
+            case R.id.remove_history1:
                 remove();
-                replaceFragment(new frame_history());
+                replaceFragment(new discount_history_frame());
                 break;
         }
     }
@@ -114,7 +114,7 @@ public class frame_history extends Fragment implements View.OnClickListener {
                         .build();
 
                 Request request = new Request.Builder()
-                        .url("http://"+ Ip.ip+":8080/project/DeleteData")
+                        .url("http://"+ Ip.ip+":8080/project/DeleteData2")
                         .post(requestBody)
                         .build();
                 try {

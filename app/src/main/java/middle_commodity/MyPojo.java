@@ -4,36 +4,26 @@ package middle_commodity;
 /**
  * Created by 张欣 on 2018/7/17.
  */
+    public class MyPojo
+    {
+        private Grid grid;
 
-public class MyPojo {
-        private String status;
-
-        private Data data;
-
-        public String getStatus ()
+        public Grid getGrid ()
         {
-            return status;
+            return grid;
         }
 
-        public void setStatus (String status)
+        public void setGrid (Grid grid)
         {
-            this.status = status;
-        }
-
-        public Data getData ()
-        {
-            return data;
-        }
-
-        public void setData (Data data)
-        {
-            this.data = data;
+            this.grid = grid;
         }
 
         @Override
         public String toString()
         {
-            return "ClassPojo [status = "+status+", data = "+data+"]";
+            return "ClassPojo [grid = "+grid+"]";
         }
     }
+
+
 

@@ -1,10 +1,10 @@
 package com.example.xiangmu;
 
+
 import android.util.Log;
 
 import com.example.xiangmu.Log_Regist_Forget.MainActivity;
 import com.example.xiangmu.main_layout.historical_item;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +19,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class Gethistorical_item {
+public class Gethistorical_item1 {
     public static String receivekeyword;
     public static List<historical_item> list=new ArrayList<historical_item>();
     public static  void get() {
@@ -28,11 +28,11 @@ public class Gethistorical_item {
             public void run() {
                 OkHttpClient client = new OkHttpClient();
                 RequestBody requestBody = new FormBody.Builder()
-                        .add("userid",MainActivity.userid)
+                        .add("userid", MainActivity.userid)
                         .build();
 
                 Request request = new Request.Builder()
-                        .url("http://"+ Ip.ip+":8080/project/SearchById")
+                        .url("http://"+ Ip.ip+":8080/project/SearchById2")
                         .post(requestBody)
                         .build();
                 try {
@@ -55,5 +55,4 @@ public class Gethistorical_item {
             }
         }).start();
     }
-
 }

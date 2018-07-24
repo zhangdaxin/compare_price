@@ -20,6 +20,9 @@ import java.util.List;
 
 import middle_commodity.Spus;
 
+import static com.example.xiangmu.Getdata.sp;
+
+
 public class SpusAdapter extends ArrayAdapter<Spus> {
 
 private int resourceId;
@@ -56,12 +59,12 @@ private int resourceId;
             viewHolder=(ViewHolder)view.getTag();
         }
         new DownloadImageTask((ImageView) view.findViewById(R.id.pic_modes))
-                .execute(s.getPic_url());
+                .execute(sp.get(position).getPic_url());
         viewHolder.img=view.findViewById(R.id.pic_modes);
-        viewHolder.introduction1.setText(s.getTitle());
-        viewHolder.shop1.setText(s.getShop());
-        viewHolder.price1.setText(s.getPrice());
-        viewHolder.months_sales.setText(s.getMonth_sales());
+        viewHolder.introduction1.setText(sp.get(position).getTitle());
+        viewHolder.shop1.setText(sp.get(position).getShop());
+        viewHolder.price1.setText(sp.get(position).getPrice());
+        viewHolder.months_sales.setText(sp.get(position).getMonth_sales());
 
         return view;
     }

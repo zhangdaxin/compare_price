@@ -13,12 +13,13 @@
         android:gravity="center"
         >
         <ImageView
+            android:id="@+id/return7"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/discount_1"
+            android:src="@drawable/small"
             />
         <EditText
-            android:id="@+id/discount_1"
+            android:id="@+id/discount_keyword"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="1.5"
@@ -28,6 +29,20 @@
             android:background="@drawable/compareprice_input_text"
             />
 
+        <TextView
+            android:id="@+id/search_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:text="搜索"
+            android:textSize="16sp"
+            android:textColor="#fb5353"
+            android:textAlignment="center"
+            />
     </LinearLayout>
+    <FrameLayout
+        android:id="@+id/history_2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

@@ -99,6 +99,11 @@ public class main_layout extends AppCompatActivity implements View.OnClickListen
                 person1.setTextColor(getResources().getColor(R.color.orange1));
                 replaceFragment(new person_page());
                 break;
+            case 5:
+                discount.setImageResource(R.drawable.discount_1);
+                discount1.setTextColor(getResources().getColor(R.color.orange1));
+                replaceFragment(new discount_page());
+                break;
         }
     }
     private void initListener() {

@@ -4,7 +4,7 @@ package middle_commodity;
  * Created by 张欣 on 2018/7/17.
  */
 
-public class Spus {
+public class Spus  {
     private String[] specialTag;
 
     private String cat;
@@ -33,14 +33,18 @@ public class Spus {
 
     private String importantKey;
 
-    public Spus(String pic_url,String title,String shop,String price,String month_sales){
+    public Spus(String pic_url,String title,String shop,String price,String month_sales,String url){
     this.pic_url=pic_url;
     this.title=title;
     this.shop=shop;
     this.price=price;
     this.month_sales=month_sales;
+    this.url=url;
     }
+   public Spus()
+   {
 
+   }
     public String getShop() {
         return shop;
     }

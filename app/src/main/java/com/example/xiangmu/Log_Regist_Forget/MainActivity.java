@@ -2,10 +2,10 @@ package com.example.xiangmu.Log_Regist_Forget;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,10 +17,7 @@ import com.example.xiangmu.Ip;
 import com.example.xiangmu.R;
 import com.example.xiangmu.main_layout.main_layout;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -117,8 +114,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login_1:
-                Intent intent=new Intent(MainActivity.this,main_layout.class);
-                startActivity(intent);
 
                 progressDialog.show();
                 final String lg_phone=phone1.getText().toString();
@@ -188,6 +183,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
+                                handler.sendEmptyMessage(ERROR);
                             }
                         }
 
@@ -197,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     progressDialog.dismiss();
                     Toast.makeText(this, "手机号码输入错误!请重新输入!", Toast.LENGTH_SHORT).show();
                 }
+
                 break;
 
             case R.id.forget_key:

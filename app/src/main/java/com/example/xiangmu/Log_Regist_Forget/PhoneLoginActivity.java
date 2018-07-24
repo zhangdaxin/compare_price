@@ -264,6 +264,7 @@ public class PhoneLoginActivity extends AppCompatActivity implements View.OnClic
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
+                        myHandler.sendEmptyMessage(ERROR);
                     }
                 }
             }).start();

@@ -23,7 +23,7 @@
         android:padding="5dp"
         >
         <ListView
-            android:id="@+id/historical_search"
+            android:id="@+id/discount_history"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -35,7 +35,7 @@
         android:layout_gravity="center"
         >
         <Button
-            android:id="@+id/remove_history"
+            android:id="@+id/remove_history1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#cfcfcf"
