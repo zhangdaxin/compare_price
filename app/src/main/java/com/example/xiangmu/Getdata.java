@@ -2,11 +2,21 @@ package com.example.xiangmu;
 
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.example.xiangmu.main_layout.search_main;
+import com.google.gson.Gson;
+
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import middle_commodity.Grid;
+import middle_commodity.MyPojo;
 import middle_commodity.Spus;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -23,6 +33,7 @@ public class Getdata {
     public static String url;
     public static String shop;
     public static List<Spus> sp=new ArrayList<Spus>();
+    public static List<Spus> sp1=new ArrayList<Spus>();
     /*
     从淘宝中获取商品数据
      */
@@ -52,18 +63,22 @@ public class Getdata {
                     responseData="{"+responseData.substring(0,responseData.indexOf("header")-2)+"}";
                     Log.d("result:", "run:"+responseData);
                     search_main.dialog.dismiss();
-                    JSONObject jsonObject = JSONObject.parseObject(responseData) ;
-                    for(java.util.Map.Entry<String,Object> entry:jsonObject.entrySet()){
-                        System.out.print(entry.getKey()+"-"+entry.getValue()+"\t");
-                    }
-                //    MyPojo myPojo= gson.fromJson(responseData,MyPojo.class);
-                 //     Grid grid=gson.fromJson(responseData,Grid.class);
-                //     String title=grid.getData().getSpus().getTitle();
-               //      Log.d("title", "run: "+title);
-                //    List<Spus> list = JSON.parseObject(responseData, new TypeReference<List<Spus>>() {});
-               //    Log.d("grid", "run: "+grid);
-                //    Log.d("myPojo", "run: "+myPojo);
-// for (int i=0;i<jsonArray.length();i++)
+//                    Grid grid=new Grid();
+//                    responseData=JSON.toJSONString(grid, SerializerFeature.WriteClassName);
+                //    Log.d("", "run: "+responseData);
+                  //   Grid grid1= (Grid) JSON.parse(responseData);
+//                    HashMap parseMap = JSON.parseObject(responseData, HashMap.class);
+//                    List<Grid> grid = (List<Grid>) parseMap.get("Grid");
+//                    for(Grid grid1 :grid){ // Exception
+//                        System.out.println(grid1.getData().getSpus() + " ");
+//                    }
+                 //     List<Grid> list = JSONArray.parseArray(responseData,Grid.class);
+                        //     String title=grid.getData().getSpus().getTitle();
+                        //      Log.d("title", "run: "+title);
+                        //    List<Spus> list = JSON.parseObject(responseData, new TypeReference<List<Spus>>() {});
+                  //   Log.d("grid", "run: " + grid1)  ;
+                        //    Log.d("myPojo", "run: "+myPojo);
+//                     for (int i=0;i<jsonArray.length();i++)
 //                    {
 //                        JSONObject jsonObject=jsonArray.getJSONObject(i);
 //                        String pic_url=jsonObject.getString("pic_url");
@@ -79,16 +94,16 @@ public class Getdata {
 //                        Spus spus=new Spus("http:"+pic_url,title,shop+":","价格为:￥"+price,"月销量: "+month_sales,url);
 //                        sp.add(spus);
 //                    }
-                   // Log.d("data", "run: "+data);
-                    //JsonObject userJsonObject = userJsonElement.getAsJsonObject();
+                        // Log.d("data", "run: "+data);
+                        //JsonObject userJsonObject = userJsonElement.getAsJsonObject();
 
 //                    Log.d("userJsonObject", "run: "+userJsonObject);
-                } catch (IOException e) {
+
+                }catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
-
 
     }
 }

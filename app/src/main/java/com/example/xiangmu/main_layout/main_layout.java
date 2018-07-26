@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.example.xiangmu.R;
+import com.example.xiangmu.Shopping_Car.shopping_car;
 
 
 public class main_layout extends AppCompatActivity implements View.OnClickListener {

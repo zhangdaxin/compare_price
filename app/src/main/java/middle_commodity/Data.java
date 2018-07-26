@@ -1,22 +1,17 @@
 package middle_commodity;
 
+import java.util.List;
+
 public class Data
 {
-    private Spus spus;
+    private List<Spus> spus;
 
-    public Spus getSpus ()
-    {
+    public List<Spus> getSpus() {
         return spus;
     }
 
-    public void setSpus (Spus spus)
-    {
+    public void setSpus(List<Spus> spus) {
         this.spus = spus;
     }
 
-    @Override
-    public String toString()
-    {
-        return "ClassPojo [spus = "+spus+"]";
-    }
 }

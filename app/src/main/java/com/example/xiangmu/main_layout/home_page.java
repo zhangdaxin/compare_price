@@ -22,9 +22,11 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.xiangmu.Mall_navigation.mall_navigation;
 import com.example.xiangmu.R;
 
 import java.io.File;
@@ -42,6 +44,10 @@ public class home_page extends Fragment implements View.OnClickListener {
     private View view;
     public ImageView cross1;
     Intent intent;
+    private LinearLayout historical_price1;
+    private LinearLayout mall_navigation1;
+    private LinearLayout save_money1;
+    private LinearLayout discount_coupon1;
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 1234;
     // 语音识别对象
 //    private SpeechRecognizer recognizer;
@@ -77,6 +83,7 @@ public class home_page extends Fragment implements View.OnClickListener {
         voice1.setOnClickListener(this);
         input.setFocusable(false);//让EditText失去焦点，然后获取点击事件
         input.setOnClickListener(this);
+        mall_navigation1.setOnClickListener(this);
     }
 
     public void initView() {
@@ -89,6 +96,10 @@ public class home_page extends Fragment implements View.OnClickListener {
         voice=getActivity().findViewById(R.id.voice);
         cross1=view.findViewById(R.id.cross);
         voice1=view.findViewById(R.id.voice1);
+        discount_coupon1=getActivity().findViewById(R.id.discount_coupon1);
+        save_money1=getActivity().findViewById(R.id.save_money1);
+        historical_price1=getActivity().findViewById(R.id.historical_price1);
+        mall_navigation1=getActivity().findViewById(R.id.mall_navigation1);
     }
 
     public void show(View view) {
@@ -125,6 +136,11 @@ public class home_page extends Fragment implements View.OnClickListener {
                 intent=new Intent(getActivity(),main_layout.class);
                 startActivity(intent);
                 break;
+            case R.id.mall_navigation1:
+                intent =new Intent(getActivity(),mall_navigation.class);
+                startActivity(intent);
+                break;
+
         }
     }
 
