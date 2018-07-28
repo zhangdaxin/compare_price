@@ -33,7 +33,6 @@ public class Getdata {
     public static String url;
     public static String shop;
     public static List<Spus> sp=new ArrayList<Spus>();
-    public static List<Spus> sp1=new ArrayList<Spus>();
     /*
     从淘宝中获取商品数据
      */
@@ -104,6 +103,5 @@ public class Getdata {
                 }
             }
         }).start();
-
     }
 }

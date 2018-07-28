@@ -565,7 +565,6 @@ public class manager_person extends AppCompatActivity implements View.OnClickLis
                             getImage(MainActivity.image);
                         }
                     }).start();
-
                 }
                 else{
 

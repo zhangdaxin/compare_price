@@ -1,9 +1,5 @@
 package middle_commodity;
 
-/**
- * Created by 张欣 on 2018/7/17.
- */
-
 public class Seller {
 
     private String num;

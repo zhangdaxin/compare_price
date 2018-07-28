@@ -38,7 +38,7 @@ private int resourceId;
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        Spus s=getItem(position);
+
         View view;
         ViewHolder viewHolder;
         if(convertView==null)
@@ -46,8 +46,6 @@ private int resourceId;
             view= LayoutInflater.from(getContext()).inflate(resourceId,parent,false);
             viewHolder=new ViewHolder();
 
-            new DownloadImageTask((ImageView) view.findViewById(R.id.pic_modes))
-                    .execute("https://gss0.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/d50735fae6cd7b8963e0d37b042442a7d8330ebe.jpg");
             viewHolder.img=view.findViewById(R.id.pic_modes);
             viewHolder.introduction1=view.findViewById(R.id.introduction);
             viewHolder.shop1=view.findViewById(R.id.shop);
@@ -58,8 +56,12 @@ private int resourceId;
             view=convertView;
             viewHolder=(ViewHolder)view.getTag();
         }
-        new DownloadImageTask((ImageView) view.findViewById(R.id.pic_modes))
-                .execute(sp.get(position).getPic_url());
+
+        String url=sp.get(position).getPic_url();
+        Log.d("", "getView: "+url);
+        viewHolder.img.setTag(url);
+        new ImageLoader().showImageByThead(viewHolder.img,url);
+
         viewHolder.img=view.findViewById(R.id.pic_modes);
         viewHolder.introduction1.setText(sp.get(position).getTitle());
         viewHolder.shop1.setText(sp.get(position).getShop());

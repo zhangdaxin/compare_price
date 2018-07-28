@@ -45,6 +45,15 @@ public class Spus  {
    {
 
    }
+
+//    public String getModeId() {
+//        return modeId;
+//    }
+//
+//    public void setModeId(String modeId) {
+//        this.modeId = modeId;
+//    }
+
     public String getShop() {
         return shop;
     }
@@ -178,6 +187,7 @@ public class Spus  {
     {
         this.importantKey = importantKey;
     }
+
 
     @Override
     public String toString()

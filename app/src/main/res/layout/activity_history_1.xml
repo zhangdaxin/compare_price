@@ -19,27 +19,24 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="match_parent"
         android:padding="5dp"
+        android:orientation="vertical"
         >
         <ListView
             android:id="@+id/historical_search"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        >
+            android:layout_height="0dp"
+            android:layout_weight="12"
+            />
         <Button
             android:id="@+id/remove_history"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#cfcfcf"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_button"
             android:text="清除历史数据"
+            android:textColor="#FFF"
             android:textSize="16sp"
             />
     </LinearLayout>

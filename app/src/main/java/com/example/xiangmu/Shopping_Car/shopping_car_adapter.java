@@ -1,9 +1,6 @@
 package com.example.xiangmu.Shopping_Car;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -11,89 +8,122 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.xiangmu.R;
-import java.io.InputStream;
 import java.util.List;
-import middle_commodity.Spus;
-import static com.example.xiangmu.Getdata.sp1;
+import static com.example.xiangmu.Shopping_Car.shopping_car.mos;
 
-
-public class shopping_car_adapter extends ArrayAdapter<Spus> {
-
+public class shopping_car_adapter extends ArrayAdapter<shopping_car_modes>  {
     private int resourceId;
+    private LayoutInflater minflate;
     /*
     适配器
      */
-    public shopping_car_adapter(@NonNull Context context, int resource, @NonNull List<Spus> objects) {
+    public shopping_car_adapter(@NonNull Context context, int resource, @NonNull List<shopping_car_modes> objects) {
         super(context, resource, objects);
         resourceId = resource;
+        minflate=LayoutInflater.from(context);
+    }
+    @Override
+    public int getCount() {
+        return mos.size();
+    }
+
+    @Nullable
+    @Override
+    public shopping_car_modes getItem(int position) {
+        return super.getItem(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        Spus s = getItem(position);
-        View view;
-        ViewHolder viewHolder;
+
+       ViewHolder viewHolder;
         if (convertView == null) {
-            view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
+            convertView = minflate.inflate(R.layout.activity_shopping_car_list, null);
 
-            new DownloadImageTask((ImageView) view.findViewById(R.id.pic_modes))
-                    .execute("https://gss0.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/d50735fae6cd7b8963e0d37b042442a7d8330ebe.jpg");
-            viewHolder.img = view.findViewById(R.id.pic_shopping_car);
-            viewHolder.title = view.findViewById(R.id.title_shopping_car);
-            viewHolder.shopname = view.findViewById(R.id.shopname);
-            viewHolder.price = view.findViewById(R.id.price_shopping_car);
-            viewHolder.months_sales = view.findViewById(R.id.months_sales_shopping);
-            view.setTag(viewHolder);//将ViewHolder储存在View中
+            viewHolder.img = convertView.findViewById(R.id.pic_shopping_car);
+            viewHolder.title = convertView.findViewById(R.id.title_shopping_car);
+            viewHolder.shopname = convertView.findViewById(R.id.shopname);
+            viewHolder.price = convertView.findViewById(R.id.price_shopping_car);
+            viewHolder.months_sales = convertView.findViewById(R.id.months_sales_shopping);
+            viewHolder.checkBox = convertView.findViewById(R.id.checkbox_button);
+
+            convertView.setTag(viewHolder);//将ViewHolder储存在View中
         } else {
-            view = convertView;
-            viewHolder = (ViewHolder) view.getTag();
+            viewHolder = (ViewHolder) convertView.getTag();
         }
-        new DownloadImageTask((ImageView) view.findViewById(R.id.pic_shopping_car))
-                .execute(sp1.get(position).getPic_url());
-        viewHolder.img = view.findViewById(R.id.pic_shopping_car);
-        viewHolder.title.setText(sp1.get(position).getTitle());
-        viewHolder.shopname.setText(sp1.get(position).getShop());
-        viewHolder.price.setText(sp1.get(position).getPrice());
-        viewHolder.months_sales.setText(sp1.get(position).getMonth_sales());
+        viewHolder.img.setImageResource(R.drawable.ic_launcher_foreground);
+        String url=mos.get(position).getPic_url();
+        Log.d("", "getView: "+url);
+        viewHolder.img.setTag(url);
+        new ImageLoader().showImageByThead(viewHolder.img,url);
+        viewHolder.title.setText(mos.get(position).getTitle());
+        viewHolder.shopname.setText(mos.get(position).getShop());
+        viewHolder.price.setText(mos.get(position).getPrice());
+        viewHolder.months_sales.setText(mos.get(position).getMonth_sales());
 
-        return view;
+        return convertView;
     }
+    /***
+     * AsyncTask加载图片
+     */
+//    class NewsAsyncTask extends AsyncTask<String,Void,Bitmap> {
+//
+//        private ImageView myImageView;
+//        private String mUrl;
+//
+//        public NewsAsyncTask(ImageView imageView, String url) {
+//            myImageView = imageView;
+//            mUrl = url;
+//        }
+//
+//        //String...params是可变参数接受execute中传过来的参数
+//        @Override
+//        protected Bitmap doInBackground(String... params) {
+//            String url = params[0];
+//            //这里同样调用我们的getBitmapFromeUrl
+//            Bitmap bitmap = null;
+//            URLConnection connection ;
+//            InputStream is;
+//            try {
+//                connection = new URL(url).openConnection();
+//                is = connection.getInputStream();
+//                BufferedInputStream bis = new BufferedInputStream(is);
+//                bitmap = BitmapFactory.decodeStream(bis);
+//                bis.close();
+//                is.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            return bitmap;
+//        }
 
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
+//        //这里的bitmap是从doInBackgroud中方法中返回过来的
+//        @Override
+//        protected void onPostExecute(Bitmap bitmap) {
+//            super.onPostExecute(bitmap);
+////            if(myImageView.getTag().equals(mUrl)){
+//                myImageView.setImageBitmap(bitmap);
+////            }
+//        }
+//    }
 
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
-    }
-
-    class ViewHolder {
+    static class ViewHolder {
         ImageView img;
         TextView title;
         TextView shopname;
         TextView price;
         TextView months_sales;
+        CheckBox checkBox;
     }
 }
