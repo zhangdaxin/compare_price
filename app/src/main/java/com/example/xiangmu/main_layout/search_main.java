@@ -30,6 +30,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.example.xiangmu.Getdata.responseData;
+
 public class search_main extends AppCompatActivity implements View.OnClickListener {
     public static String searchkeyword;
     private EditText searchkey_word;
@@ -44,6 +46,14 @@ public class search_main extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_main);
         initView();
+        /**
+         * 如果是语音录入的情况
+         */
+        if(!responseData.equals(""))
+        {
+            searchkey_word.setText(responseData);
+            searchkey_word.setSelection(searchkey_word.length());//把光标定位末尾
+        }
         replaceFragment(new frame_history());
         initListener();
     }

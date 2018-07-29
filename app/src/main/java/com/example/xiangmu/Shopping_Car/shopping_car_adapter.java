@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.xiangmu.R;
@@ -26,6 +27,7 @@ public class shopping_car_adapter extends ArrayAdapter<shopping_car_modes>  {
         resourceId = resource;
         minflate=LayoutInflater.from(context);
     }
+
     @Override
     public int getCount() {
         return mos.size();
@@ -44,13 +46,12 @@ public class shopping_car_adapter extends ArrayAdapter<shopping_car_modes>  {
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-       ViewHolder viewHolder;
+        ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = minflate.inflate(R.layout.activity_shopping_car_list, null);
-
             viewHolder.img = convertView.findViewById(R.id.pic_shopping_car);
             viewHolder.title = convertView.findViewById(R.id.title_shopping_car);
             viewHolder.shopname = convertView.findViewById(R.id.shopname);
@@ -62,7 +63,7 @@ public class shopping_car_adapter extends ArrayAdapter<shopping_car_modes>  {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.img.setImageResource(R.drawable.ic_launcher_foreground);
+        //viewHolder.img.setImageResource(R.drawable.ic_launcher_foreground);
         String url=mos.get(position).getPic_url();
         Log.d("", "getView: "+url);
         viewHolder.img.setTag(url);
@@ -71,7 +72,13 @@ public class shopping_car_adapter extends ArrayAdapter<shopping_car_modes>  {
         viewHolder.shopname.setText(mos.get(position).getShop());
         viewHolder.price.setText(mos.get(position).getPrice());
         viewHolder.months_sales.setText(mos.get(position).getMonth_sales());
-
+        viewHolder.checkBox.setChecked(mos.get(position).isSelected());//设置选中与否
+        viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mos.get(position).setSelected(isChecked);//设置这个位置的是否选中情况
+        }
+        });
         return convertView;
     }
     /***

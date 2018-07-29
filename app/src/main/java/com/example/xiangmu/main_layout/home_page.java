@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,14 +27,32 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.xiangmu.JsonParser;
 import com.example.xiangmu.Mall_navigation.mall_navigation;
 import com.example.xiangmu.R;
+import com.iflytek.cloud.ErrorCode;
+import com.iflytek.cloud.InitListener;
+import com.iflytek.cloud.RecognizerListener;
+import com.iflytek.cloud.RecognizerResult;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechError;
+import com.iflytek.cloud.SpeechSynthesizer;
+import com.iflytek.cloud.SpeechUtility;
+import com.iflytek.cloud.SynthesizerListener;
+import com.iflytek.cloud.ui.RecognizerDialog;
+import com.iflytek.cloud.ui.RecognizerDialogListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static com.example.xiangmu.Getdata.responseData;
 
 
 public class home_page extends Fragment implements View.OnClickListener {
@@ -60,7 +79,8 @@ public class home_page extends Fragment implements View.OnClickListener {
 //
 //    //麦克风按钮
 //    private ImageView startRecord ;
-
+// 用HashMap存储听写结果
+    private HashMap<String, String> mIatResults = new LinkedHashMap<String , String>();
 
     @Nullable
     @Override
@@ -74,8 +94,8 @@ public class home_page extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         initView();
         initListener();
+        initSpeech();
     }
-
 
     public void initListener() {
         voice.setOnClickListener(this);
@@ -85,7 +105,11 @@ public class home_page extends Fragment implements View.OnClickListener {
         input.setOnClickListener(this);
         mall_navigation1.setOnClickListener(this);
     }
-
+    private void initSpeech() {
+        // 将“12345678”替换成您申请的 APPID，申请地址： http://www.xfyun.cn
+        // 请勿在 “ =”与 appid 之间添加任务空字符或者转义符
+        SpeechUtility. createUtility(getActivity(), SpeechConstant. APPID + "=5b559918" );
+    }
     public void initView() {
         dialog = new Dialog(getActivity(), R.style.Theme_AppCompat_NoActionBar);
         //填充对话框的布局
@@ -129,7 +153,7 @@ public class home_page extends Fragment implements View.OnClickListener {
                 dialog.dismiss();
                 break;
             case R.id.voice1:
-                speak();
+                startSpeechDialog();
                 break;
             case R.id.input_text_cp:
                 main_layout.choose=2;
@@ -163,21 +187,182 @@ public class home_page extends Fragment implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void speak()
-    {
-        try{
-            //通过Intent传递语音识别的模式，开启语音
-            Intent intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-            //语言模式和自由模式的语音识别
-            intent.putExtra(RecognizerIntent. EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-            //提示语音开始
-            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "开始语音");
-            //开始语音识别
-            startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
-        }catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getActivity(), "找不到语音设备!", Toast.LENGTH_SHORT).show();
+
+    class MySynthesizerListener implements SynthesizerListener {
+
+        @Override
+        public void onSpeakBegin() {
+            showTip(" 开始播放 ");
+        }
+
+        @Override
+        public void onSpeakPaused() {
+            showTip(" 暂停播放 ");
+        }
+
+        @Override
+        public void onSpeakResumed() {
+            showTip(" 继续播放 ");
+        }
+
+        @Override
+        public void onBufferProgress(int percent, int beginPos, int endPos ,
+                                     String info) {
+            // 合成进度
+        }
+
+        @Override
+        public void onSpeakProgress(int percent, int beginPos, int endPos) {
+            // 播放进度
+        }
+
+        @Override
+        public void onCompleted(SpeechError error) {
+            if (error == null) {
+                showTip("播放完成 ");
+            } else if (error != null ) {
+                showTip(error.getPlainDescription( true));
+            }
+        }
+
+        @Override
+        public void onEvent(int eventType, int arg1 , int arg2, Bundle obj) {
+            // 以下代码用于获取与云端的会话 id，当业务出错时将会话 id提供给技术支持人员，可用于查询会话日志，定位出错原因
+            // 若使用本地能力，会话 id为null
+            //if (SpeechEvent.EVENT_SESSION_ID == eventType) {
+            //     String sid = obj.getString(SpeechEvent.KEY_EVENT_SESSION_ID);
+            //     Log.d(TAG, "session id =" + sid);
+            //}
         }
     }
 
+    private void startSpeechDialog() {
+        //1. 创建RecognizerDialog对象
+        RecognizerDialog mDialog = new RecognizerDialog(getActivity(), new MyInitListener()) ;
+        //2. 设置accent、 language等参数
+        mDialog.setParameter(SpeechConstant. LANGUAGE, "zh_cn" );// 设置中文
+        mDialog.setParameter(SpeechConstant. ACCENT, "mandarin" );
+        // 若要将UI控件用于语义理解，必须添加以下参数设置，设置之后 onResult回调返回将是语义理解
+        // 结果
+        // mDialog.setParameter("asr_sch", "1");
+        // mDialog.setParameter("nlp_version", "2.0");
+        //3.设置回调接口
+        mDialog.setListener( new MyRecognizerDialogListener()) ;
+        //4. 显示dialog，接收语音输入
+        mDialog.show() ;
+    }
+
+    class MyRecognizerDialogListener implements RecognizerDialogListener {
+
+        /**
+         * @param results
+         * @param isLast  是否说完了
+         */
+        @Override
+        public void onResult(RecognizerResult results, boolean isLast) {
+            String result = results.getResultString(); //为解析的
+           // showTip(result) ;
+            System. out.println(" 没有解析的 :" + result);
+
+            String text = JsonParser.parseIatResult(result) ;//解析过后的
+            System. out.println(" 解析后的 :" + text);
+
+            String sn = null;
+            // 读取json结果中的 sn字段
+            try {
+                JSONObject resultJson = new JSONObject(results.getResultString()) ;
+                sn = resultJson.optString("sn" );
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            mIatResults .put(sn, text) ;//没有得到一句，添加到
+
+            StringBuffer resultBuffer = new StringBuffer();
+            for (String key : mIatResults.keySet()) {
+                resultBuffer.append(mIatResults .get(key));
+            }
+            responseData=resultBuffer.toString();
+            if(responseData==null)
+            {
+                Toast.makeText(getActivity(), "你没有发出声音", Toast.LENGTH_SHORT).show();
+            }else {
+                intent = new Intent(getActivity(), search_main.class);
+                startActivity(intent);
+            }
+        }
+
+        @Override
+        public void onError(SpeechError speechError) {
+
+        }
+    }
+
+    class MyInitListener implements InitListener {
+
+        @Override
+        public void onInit(int code) {
+            if (code != ErrorCode.SUCCESS) {
+                showTip("初始化失败 ");
+            }
+
+        }
+    }
+
+    /**
+     * 语音识别
+     */
+    private void startSpeech() {
+        //1. 创建SpeechRecognizer对象，第二个参数： 本地识别时传 InitListener
+        com.iflytek.cloud.SpeechRecognizer mIat = com.iflytek.cloud.SpeechRecognizer.createRecognizer( getActivity(), null); //语音识别器
+        //2. 设置听写参数，详见《 MSC Reference Manual》 SpeechConstant类
+        mIat.setParameter(SpeechConstant. DOMAIN, "iat" );// 短信和日常用语： iat (默认)
+        mIat.setParameter(SpeechConstant. LANGUAGE, "zh_cn" );// 设置中文
+        mIat.setParameter(SpeechConstant. ACCENT, "mandarin" );// 设置普通话
+        //3. 开始听写
+        mIat.startListening( mRecoListener);
+    }
+
+    // 听写监听器
+    private RecognizerListener mRecoListener = new RecognizerListener() {
+        // 听写结果回调接口 (返回Json 格式结果，用户可参见附录 13.1)；
+//一般情况下会通过onResults接口多次返回结果，完整的识别内容是多次结果的累加；
+//关于解析Json的代码可参见 Demo中JsonParser 类；
+//isLast等于true 时会话结束。
+        public void onResult(RecognizerResult results, boolean isLast) {
+           // Log.e (TAG, results.getResultString());
+            System.out.println(results.getResultString()) ;
+            showTip(results.getResultString()) ;
+        }
+
+        // 会话发生错误回调接口
+        public void onError(SpeechError error) {
+            showTip(error.getPlainDescription(true)) ;
+            // 获取错误码描述
+           // Log. e(TAG, "error.getPlainDescription(true)==" + error.getPlainDescription(true ));
+        }
+
+        // 开始录音
+        public void onBeginOfSpeech() {
+            showTip(" 开始录音 ");
+        }
+
+        //volume 音量值0~30， data音频数据
+        public void onVolumeChanged(int volume, byte[] data) {
+            showTip(" 声音改变了 ");
+        }
+
+        // 结束录音
+        public void onEndOfSpeech() {
+            showTip(" 结束录音 ");
+        }
+
+        // 扩展用接口
+        public void onEvent(int eventType, int arg1 , int arg2, Bundle obj) {
+        }
+    };
+
+    private void showTip (String data) {
+        Toast.makeText(getActivity(), data, Toast.LENGTH_SHORT).show() ;
+    }
 }

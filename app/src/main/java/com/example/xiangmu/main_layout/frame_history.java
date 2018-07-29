@@ -32,6 +32,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.example.xiangmu.Getdata.responseData;
 import static com.example.xiangmu.Gethistorical_item.list;
 
 public class frame_history extends Fragment implements View.OnClickListener {
@@ -61,7 +62,7 @@ public class frame_history extends Fragment implements View.OnClickListener {
                 search_main.searchkeyword=his.getItem();
                 progressDialog.show();
                 Getdata.get();
-                et.setHint(search_main.searchkeyword);
+                et.setText(responseData);
                 replaceFragment(new show_modes());
                 progressDialog.dismiss();
                 Toast.makeText(getActivity(), his.getItem(), Toast.LENGTH_SHORT).show();
@@ -81,8 +82,8 @@ public class frame_history extends Fragment implements View.OnClickListener {
         progressDialog .setCancelable(false);
 
         remove_history=getActivity().findViewById(R.id.remove_history);
-        LayoutInflater inflater = getActivity().getLayoutInflater();                             //先获取当前布局的填充器
-        View view1 = inflater.inflate(R.layout.activity_search_main, null);   //通过填充器获取另外一个布局的对象
+        //先获取当前布局的填充器
+        View view1 = LayoutInflater.from(getContext()).inflate(R.layout.activity_search_main, null);   //通过填充器获取另外一个布局的对象
         et=view1.findViewById(R.id.search_keyword);
 }
 

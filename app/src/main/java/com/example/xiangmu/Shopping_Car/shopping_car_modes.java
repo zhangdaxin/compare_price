@@ -16,24 +16,28 @@ public class shopping_car_modes {
 
     private String month_sales;
 
-    private boolean isChecked;
+    private  String modeId;
 
-    public shopping_car_modes(String pic_url,String title,String shop,String price,String month_sales,String url){
+    private boolean mSelected;
+
+    public shopping_car_modes(String pic_url,String title,String shop,String price,String month_sales,String url,String modeId,boolean selected){
         this.pic_url=pic_url;
         this.title=title;
         this.shop=shop;
         this.price=price;
         this.month_sales=month_sales;
         this.url=url;
+        this.mSelected = selected;
+        this.modeId=modeId;
     }
 
-//    public String getModeId() {
-//        return modeId;
-//    }
-//
-//    public void setModeId(String modeId) {
-//        this.modeId = modeId;
-//    }
+    public String getModeId() {
+        return modeId;
+    }
+
+    public void setModeId(String modeId) {
+        this.modeId = modeId;
+    }
 
 
     public String getShop() {
@@ -89,14 +93,13 @@ public class shopping_car_modes {
         this.month_sales = month_sales;
     }
 
-    public void setChecked(boolean checked) {
-        isChecked = checked;
-    }
-    public Boolean getChecked ()
-    {
-        return isChecked;
+    public boolean isSelected() {
+        return mSelected;
     }
 
+    public void setSelected(boolean selected) {
+        mSelected = selected;
+    }
     @Override
     public String toString()
     {

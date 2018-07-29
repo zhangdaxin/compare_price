@@ -14,6 +14,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import static com.example.xiangmu.Shopping_Car.shopping_car.dialog;
+
 public class ImageLoader {
 
     private ImageView mImageView;
@@ -46,7 +48,6 @@ public class ImageLoader {
             }
         }).start();
     }
-
     /**
      * 把地址图片转成Bitmap形式
      * @param urlString
