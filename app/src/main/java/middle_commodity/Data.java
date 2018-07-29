@@ -4,14 +4,21 @@ import java.util.List;
 
 public class Data
 {
-    private List<Spus> spus;
+    private Spus[] spus;
 
-    public List<Spus> getSpus() {
+    public Spus[] getSpus ()
+    {
         return spus;
     }
 
-    public void setSpus(List<Spus> spus) {
+    public void setSpus (Spus[] spus)
+    {
         this.spus = spus;
     }
 
+    @Override
+    public String toString()
+    {
+        return "ClassPojo [spus = "+spus+"]";
+    }
 }

@@ -67,13 +67,13 @@ public class show_modes extends Fragment {
             SpusAdapter adapter = new SpusAdapter(getActivity(), R.layout.activity_modes,sp);
             ListView listView =getActivity().findViewById(R.id.modes);
             listView.setAdapter(adapter);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Spus s=sp.get(position);
-                    Toast.makeText(getActivity(),s.getTitle(), Toast.LENGTH_SHORT).show();
-                }
-            });
+//            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    Spus s=sp.get(position);
+//                    Toast.makeText(getActivity(),s.getTitle(), Toast.LENGTH_SHORT).show();
+//                }
+//            });
         }
     }
 

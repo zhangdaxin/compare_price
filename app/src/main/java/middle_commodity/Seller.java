@@ -1,7 +1,6 @@
 package middle_commodity;
-
-public class Seller {
-
+public class Seller
+{
     private String num;
 
     private String trace;

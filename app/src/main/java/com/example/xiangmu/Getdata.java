@@ -65,38 +65,23 @@ public class Getdata {
 //                    Grid grid=new Grid();
 //                    responseData=JSON.toJSONString(grid, SerializerFeature.WriteClassName);
                 //    Log.d("", "run: "+responseData);
-                  //   Grid grid1= (Grid) JSON.parse(responseData);
-//                    HashMap parseMap = JSON.parseObject(responseData, HashMap.class);
-//                    List<Grid> grid = (List<Grid>) parseMap.get("Grid");
-//                    for(Grid grid1 :grid){ // Exception
-//                        System.out.println(grid1.getData().getSpus() + " ");
-//                    }
-                 //     List<Grid> list = JSONArray.parseArray(responseData,Grid.class);
-                        //     String title=grid.getData().getSpus().getTitle();
-                        //      Log.d("title", "run: "+title);
-                        //    List<Spus> list = JSON.parseObject(responseData, new TypeReference<List<Spus>>() {});
-                  //   Log.d("grid", "run: " + grid1)  ;
-                        //    Log.d("myPojo", "run: "+myPojo);
-//                     for (int i=0;i<jsonArray.length();i++)
-//                    {
-//                        JSONObject jsonObject=jsonArray.getJSONObject(i);
-//                        String pic_url=jsonObject.getString("pic_url");
-//                        String title=jsonObject.getString("title");
-//                        String price=jsonObject.getString("price");
-//                        String month_sales=jsonObject.getString("month_sales");
-//                        url=jsonObject.getString("url");
-//                        url="http:"+url;
-//                        if(k==1)
-//                        {
-//                            shop="京东商城";
-//                        }
-//                        Spus spus=new Spus("http:"+pic_url,title,shop+":","价格为:￥"+price,"月销量: "+month_sales,url);
-//                        sp.add(spus);
-//                    }
-                        // Log.d("data", "run: "+data);
-                        //JsonObject userJsonObject = userJsonElement.getAsJsonObject();
+                     MyPojo m= JSON.parseObject(responseData,MyPojo.class);
+                    Spus[] modes= m.getGrid().getData().getSpus();
 
-//                    Log.d("userJsonObject", "run: "+userJsonObject);
+                    for (int i=0;i<modes.length;i++) {
+                        String pic_url=modes[i].getPic_url();
+                        String title=modes[i].getTitle();
+                        String price=modes[i].getPrice();
+                        String month_sales=modes[i].getMonth_sales();
+                        url="http:"+modes[i].getUrl();
+                        if(k==1)
+                        {
+                            shop="淘宝商城";
+                        }
+                        Spus spus=new Spus("http:"+pic_url,title,shop+":","价格为:￥"+price,"月销量: "+month_sales,url);
+                        sp.add(spus);
+                    }
+                    Log.d("", "run: "+m);
 
                 }catch (IOException e) {
                     e.printStackTrace();

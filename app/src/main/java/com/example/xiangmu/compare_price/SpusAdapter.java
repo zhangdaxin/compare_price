@@ -51,6 +51,7 @@ private int resourceId;
             viewHolder.shop1=view.findViewById(R.id.shop);
             viewHolder.price1=view.findViewById(R.id.price);
             viewHolder.months_sales=view.findViewById(R.id.months_sales);
+
             view.setTag(viewHolder);//将ViewHolder储存在View中
         }else{
             view=convertView;

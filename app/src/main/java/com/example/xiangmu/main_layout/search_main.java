@@ -49,11 +49,11 @@ public class search_main extends AppCompatActivity implements View.OnClickListen
         /**
          * 如果是语音录入的情况
          */
-        if(!responseData.equals(""))
-        {
-            searchkey_word.setText(responseData);
-            searchkey_word.setSelection(searchkey_word.length());//把光标定位末尾
-        }
+//        if(!responseData.equals(""))
+//        {
+//            searchkey_word.setText(responseData);
+//            searchkey_word.setSelection(searchkey_word.length());//把光标定位末尾
+//        }
         replaceFragment(new frame_history());
         initListener();
     }
