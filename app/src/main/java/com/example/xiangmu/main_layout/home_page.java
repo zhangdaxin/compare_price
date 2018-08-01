@@ -52,15 +52,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-import static com.example.xiangmu.Getdata.responseData;
 
 
 public class home_page extends Fragment implements View.OnClickListener {
     private ImageView voice;
     private ImageView voice1;
     private EditText input;
+    private EditText search_keyword;
     private Dialog dialog;
     private View view;
+    private View view1;
     public ImageView cross1;
     Intent intent;
     private LinearLayout historical_price1;
@@ -104,6 +105,8 @@ public class home_page extends Fragment implements View.OnClickListener {
         input.setFocusable(false);//让EditText失去焦点，然后获取点击事件
         input.setOnClickListener(this);
         mall_navigation1.setOnClickListener(this);
+        discount_coupon1.setOnClickListener(this);
+        save_money1.setOnClickListener(this);
     }
     private void initSpeech() {
         // 将“12345678”替换成您申请的 APPID，申请地址： http://www.xfyun.cn
@@ -124,6 +127,7 @@ public class home_page extends Fragment implements View.OnClickListener {
         save_money1=getActivity().findViewById(R.id.save_money1);
         historical_price1=getActivity().findViewById(R.id.historical_price1);
         mall_navigation1=getActivity().findViewById(R.id.mall_navigation1);
+        search_keyword=getActivity().findViewById(R.id.search_keyword);
     }
 
     public void show(View view) {
@@ -164,7 +168,15 @@ public class home_page extends Fragment implements View.OnClickListener {
                 intent =new Intent(getActivity(),mall_navigation.class);
                 startActivity(intent);
                 break;
-
+            case R.id.discount_coupon1:
+                main_layout.choose=5;
+                intent=new Intent(getActivity(),main_layout.class);
+                startActivity(intent);
+                break;
+            case R.id.save_money1:
+                intent=new Intent(getActivity(),Search_quan.class);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -282,12 +294,13 @@ public class home_page extends Fragment implements View.OnClickListener {
             for (String key : mIatResults.keySet()) {
                 resultBuffer.append(mIatResults .get(key));
             }
-            responseData=resultBuffer.toString();
-            if(responseData==null)
+            search_main.searchkeyword=resultBuffer.toString();
+            if(search_main.searchkeyword==null)
             {
                 Toast.makeText(getActivity(), "你没有发出声音", Toast.LENGTH_SHORT).show();
             }else {
                 intent = new Intent(getActivity(), search_main.class);
+
                 startActivity(intent);
             }
         }
@@ -305,7 +318,6 @@ public class home_page extends Fragment implements View.OnClickListener {
             if (code != ErrorCode.SUCCESS) {
                 showTip("初始化失败 ");
             }
-
         }
     }
 

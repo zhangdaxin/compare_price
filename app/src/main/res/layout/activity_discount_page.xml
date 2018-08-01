@@ -22,7 +22,7 @@
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="1.5"
-            android:hint="搜索全网最新国内折扣"
+            android:hint="请输入关键字搜索商品折扣"
             android:textSize="18sp"
             android:layout_marginLeft="8dp"
             android:background="@drawable/compareprice_input_text"

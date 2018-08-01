@@ -1,4 +1,4 @@
-package com.example.xiangmu.compare_price;
+package com.example.xiangmu.discount;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,27 +12,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.example.xiangmu.R;
-import com.example.xiangmu.main_layout.search_main;
+import com.example.xiangmu.main_layout.discount_page1;
+
 import java.util.List;
-import middle_commodity.Spus;
-import static com.example.xiangmu.Getdata.sp;
 
+import static com.example.xiangmu.main_layout.discount_page1.dm;
 
-public class show_modes extends Fragment {
+public class Discount_show_modes extends Fragment {
     public static final int SUCCESS=0;
     public static final int FAIL=1;
     private ListView listView;
-    private SpusAdapter spusAdapter;
+    private Discount_Mode_Adapter adapter;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.activity_show_modes,container,false);
+        View view=inflater.inflate(R.layout.activity_discount_list,container,false);
         return view;
     }
-      /*
-       异步处理
-        */
+    /*
+     异步处理
+      */
     Handler handler=new Handler()
     {
         @Override
@@ -41,7 +42,7 @@ public class show_modes extends Fragment {
             {
                 case SUCCESS:
                     NewsAsyncTask s=new NewsAsyncTask();
-                    s.onPostExecute(sp);
+                    s.onPostExecute(dm);
                     break;
                 case FAIL:
                     Toast.makeText(getActivity(), "存储失败", Toast.LENGTH_SHORT).show();
@@ -50,7 +51,7 @@ public class show_modes extends Fragment {
         }
     };
 
-    class NewsAsyncTask extends AsyncTask<String, Void, List<Spus>> {
+    class NewsAsyncTask extends AsyncTask<String, Void, List<Discount_Mode>> {
         /**
          * 每一个List都代表一行数据
          *
@@ -58,24 +59,17 @@ public class show_modes extends Fragment {
          * @return
          */
         @Override
-        protected List<Spus> doInBackground(String... strings) {
+        protected List<Discount_Mode> doInBackground(String... strings) {
             return null;
         }
 
-        protected void onPostExecute(List<Spus> modes) {
+        protected void onPostExecute(List<Discount_Mode> modes) {
             super.onPostExecute(modes);
             if (getContext() != null) {
-                spusAdapter = new SpusAdapter(getContext(),R.layout.activity_modes,sp);
-                listView.setAdapter(spusAdapter);
-                search_main.dialog.dismiss();
-                sp.clear();
-//            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                    Spus s=sp.get(position);
-//                    Toast.makeText(getActivity(),s.getTitle(), Toast.LENGTH_SHORT).show();
-//                }
-//            });
+                adapter = new Discount_Mode_Adapter(getContext(),R.layout.activity_discount_modes,dm);
+                listView.setAdapter(adapter);
+                discount_page1.dialog.dismiss();
+                dm.clear();
             }
         }
     }
@@ -88,7 +82,7 @@ public class show_modes extends Fragment {
     }
 
     private void initView() {
-         listView =getActivity().findViewById(R.id.modes);
+        listView =getActivity().findViewById(R.id.discount_list);
     }
 
 }

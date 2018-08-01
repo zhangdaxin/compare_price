@@ -11,28 +11,28 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
 
-    <!--获取手机录音机使用权限，听写、识别、语义理解需要用到此权限 -->
+    <!-- 获取手机录音机使用权限，听写、识别、语义理解需要用到此权限 -->
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
-    <!--连接网络权限，用于执行云端语音能力 -->
+    <!-- 连接网络权限，用于执行云端语音能力 -->
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!--读取网络信息状态 -->
+    <!-- 读取网络信息状态 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <!--获取当前wifi状态 -->
+    <!-- 获取当前wifi状态 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
-    <!--允许程序改变网络连接状态 -->
+    <!-- 允许程序改变网络连接状态 -->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
-    <!--读取手机信息权限 -->
+    <!-- 读取手机信息权限 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -73,10 +73,16 @@
         </provider>
 
         <activity android:name=".main_layout.alter_password" />
-        <activity android:name=".compare_price.show_modes" />
+        <!-- <activity android:name=".compare_price.show_modes" /> -->
         <activity android:name=".main_layout.discount_page1" />
         <activity android:name=".main_layout.search_main" />
-        <activity android:name=".Mall_navigation.mall_navigation"></activity>
+        <activity android:name=".Mall_navigation.mall_navigation" />
+        <!-- <activity -->
+        <!-- android:name=".Shopping_Car.null_modes" -->
+        <!-- android:label="@string/title_activity_null_modes" -->
+        <!-- android:theme="@style/AppTheme" /> -->
+        <!-- <activity android:name=".Shopping_Car.have_modes"></activity> -->
+        <activity android:name=".main_layout.Search_quan"></activity>
     </application>
 
 </manifest>

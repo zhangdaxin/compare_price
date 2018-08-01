@@ -3,6 +3,7 @@ package com.example.xiangmu.main_layout;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.sax.Element;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,11 @@ import com.example.xiangmu.Gethistorical_item1;
 import com.example.xiangmu.Ip;
 import com.example.xiangmu.Log_Regist_Forget.MainActivity;
 import com.example.xiangmu.R;
+import com.example.xiangmu.discount.Discount_Mode;
+import com.example.xiangmu.discount.Discount_show_modes;
+
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
@@ -32,10 +38,11 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static com.example.xiangmu.Gethistorical_item1.list;
+import static com.example.xiangmu.main_layout.discount_page1.dm;
 
 public class discount_history_frame extends Fragment implements View.OnClickListener {
-
-    public ProgressDialog progressDialog;
+    public static ProgressDialog progressDialog;
+    String discountkeyword;
     EditText et;
     Button remove_history1;
     @Nullable
@@ -58,11 +65,12 @@ public class discount_history_frame extends Fragment implements View.OnClickList
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 historical_item his=list.get(position);
-                discount_page1.discountkeyword=his.getItem();
+                discountkeyword=his.getItem();
                 progressDialog.show();
-              //  Getdata.get();
-                et.setHint(discount_page1.discountkeyword);
-               // replaceFragment(new show_modes());
+                getDiscountModes();
+                Log.d("", "onItemClick: "+1111);
+                et.setText(discount_page1.discountkeyword);
+                replaceFragment(new Discount_show_modes());
                 progressDialog.dismiss();
                 Toast.makeText(getActivity(), his.getItem(), Toast.LENGTH_SHORT).show();
             }
@@ -81,8 +89,8 @@ public class discount_history_frame extends Fragment implements View.OnClickList
         progressDialog .setCancelable(false);
 
         remove_history1=getActivity().findViewById(R.id.remove_history1);
-        LayoutInflater inflater = getActivity().getLayoutInflater();                             //先获取当前布局的填充器
-        View view1 = inflater.inflate(R.layout.activity_discount_page1, null);   //通过填充器获取另外一个布局的对象
+        //先获取当前布局的填充器
+        View view1 =LayoutInflater.from(getContext()).inflate(R.layout.activity_discount_page1, null);   //通过填充器获取另外一个布局的对象
         et=view1.findViewById(R.id.discount_keyword);
     }
 
@@ -126,5 +134,55 @@ public class discount_history_frame extends Fragment implements View.OnClickList
             }
         }).start();
     }
+    public  void getDiscountModes() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-}
+                OkHttpClient client = new OkHttpClient();
+
+                Request request = new Request.Builder()
+                        .url("http://search.shopin.net/search/"+discountkeyword+"+.html")
+                        .build();
+                Response response = null;
+                try {
+                    response = client.newCall(request).execute();
+                    String responseData = response.body().string();
+                    dealwith(responseData);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    public static void dealwith(String html) throws Exception {
+        String discount = null;
+        String url1 = null;
+        String pic_url = null;
+        String new_price = null;
+        String title = null;
+        String old_price = null;
+
+        org.jsoup.nodes.Document document = Jsoup.parse(html);
+            Elements elements = document.select("div[class=content addOn clear]");
+            for (org.jsoup.nodes.Element element : elements) {
+                Elements elements2 = element.getElementsByTag("li");
+                for (org.jsoup.nodes.Element element2 : elements2) {
+                    url1 = element2.getElementsByTag("a").attr("href");
+                    pic_url = element2.getElementsByTag("img").attr("data-original");
+                    title = element2.getElementsByClass("productName").text();
+                    new_price = element2.getElementsByClass("price").text();
+                    discount = element2.getElementsByClass("discount").text();
+                    old_price = element2.getElementsByClass("gray").text();
+
+                    Discount_Mode d = new Discount_Mode(pic_url, title, "打折后:" + new_price, "原价:" + old_price, discount, url1);
+                    dm.add(d);
+                }
+        }
+    }
+    }
+
+

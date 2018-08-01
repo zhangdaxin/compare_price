@@ -19,8 +19,18 @@ import com.example.xiangmu.Ip;
 import com.example.xiangmu.Log_Regist_Forget.MainActivity;
 import com.example.xiangmu.R;
 import com.example.xiangmu.compare_price.show_modes;
+import com.example.xiangmu.discount.Discount_Mode;
+import com.example.xiangmu.discount.Discount_show_modes;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import middle_commodity.Spus;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -29,13 +39,14 @@ import okhttp3.Response;
 
 
 public class discount_page1 extends AppCompatActivity implements View.OnClickListener {
-    public static String discountkeyword;
+    public static String  discountkeyword;
     private EditText discount_keyword;
     private TextView search2;
     private ImageView return7;
-    public List list=new ArrayList();
     public FrameLayout history_2;
     public static ProgressDialog dialog;
+
+    public static List<Discount_Mode> dm=new ArrayList<Discount_Mode>();
     public Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +84,8 @@ public class discount_page1 extends AppCompatActivity implements View.OnClickLis
                 {
                     dialog.show();
                     postHistory();
-                    Getdata.get();
-                    replaceFragment(new show_modes());
+                    getDiscountModes();
+                    replaceFragment(new Discount_show_modes());
                 }else{
                     Toast.makeText(this, "你没有输入想要查询的商品!", Toast.LENGTH_SHORT).show();
                 }
@@ -85,6 +96,56 @@ public class discount_page1 extends AppCompatActivity implements View.OnClickLis
                 startActivity(intent);
                 overridePendingTransition(R.anim.dong, R.anim.dong1);
                 break;
+        }
+    }
+
+    public static void getDiscountModes() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                OkHttpClient client = new OkHttpClient();
+
+                Request request = new Request.Builder()
+                        .url("http://search.shopin.net/search/"+discountkeyword+"+.html")
+                        .build();
+                Response response = null;
+                try {
+                    response = client.newCall(request).execute();
+                    String responseData = response.body().string();
+                    dealwith(responseData);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+    public static void dealwith(String html) throws Exception {
+
+        String discount = null;
+        String url1 = null;
+        String pic_url = null;
+        String new_price = null;
+        String title = null;
+        String old_price = null;
+
+        org.jsoup.nodes.Document document = Jsoup.parse(html);
+        Elements elements = document.select("div[class=content addOn clear]");
+        for (org.jsoup.nodes.Element element : elements) {
+            Elements elements2 = element.getElementsByTag("li");
+            for (org.jsoup.nodes.Element element2 : elements2) {
+                url1 = element2.getElementsByTag("a").attr("href");
+                pic_url = element2.getElementsByTag("img").attr("data-original");
+                title = element2.getElementsByClass("productName").text();
+                new_price = element2.getElementsByClass("price").text();
+                discount = element2.getElementsByClass("discount").text();
+                old_price = element2.getElementsByClass("gray").text();
+
+                Discount_Mode d = new Discount_Mode(pic_url, title, "打折后:" + new_price, "原价:" + old_price, discount, url1);
+                dm.add(d);
+            }
         }
     }
 

@@ -58,6 +58,7 @@
             android:textColor="#fb5353"
             android:textAlignment="center"
             />
+
     </LinearLayout>
     <FrameLayout
         android:id="@+id/history_1"

@@ -32,7 +32,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static com.example.xiangmu.Getdata.responseData;
 import static com.example.xiangmu.Gethistorical_item.list;
 
 public class frame_history extends Fragment implements View.OnClickListener {
@@ -60,11 +59,10 @@ public class frame_history extends Fragment implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 historical_item his=list.get(position);
                 search_main.searchkeyword=his.getItem();
-                progressDialog.show();
+                search_main.dialog.show();
                 Getdata.get();
-                et.setText(responseData);
+                et.setText(search_main.searchkeyword);
                 replaceFragment(new show_modes());
-                progressDialog.dismiss();
                 Toast.makeText(getActivity(), his.getItem(), Toast.LENGTH_SHORT).show();
             }
         });

@@ -18,7 +18,7 @@ public class shopping_car_modes {
 
     private  String modeId;
 
-    private boolean mSelected;
+    public boolean mSelected;
 
     public shopping_car_modes(String pic_url,String title,String shop,String price,String month_sales,String url,String modeId,boolean selected){
         this.pic_url=pic_url;

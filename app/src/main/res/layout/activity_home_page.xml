@@ -109,7 +109,7 @@
                 android:layout_height="41dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="3dp"
-                android:src="@drawable/save_money" />
+                android:src="@drawable/save_money_1" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -138,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_gravity="center"
-                android:text="搜优惠券" />
+                android:text="搜折扣" />
         </LinearLayout>
 
     </LinearLayout>

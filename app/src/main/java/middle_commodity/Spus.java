@@ -54,6 +54,10 @@ public class Spus  {
 //        this.modeId = modeId;
 //    }
 
+    public void setShop(String shop) {
+        this.shop = shop;
+    }
+
     public String getShop() {
         return shop;
     }

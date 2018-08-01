@@ -1,4 +1,4 @@
-package com.example.xiangmu.compare_price;
+package com.example.xiangmu.discount;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,7 +26,6 @@ public class ImageLoader {
             super.handleMessage(msg);
             if(mImageView.getTag().equals(mUrl)){
                 mImageView.setImageBitmap((Bitmap) msg.obj);
-                search_main.dialog.dismiss();
             }
         }
     };

@@ -1,4 +1,4 @@
-package com.example.xiangmu.compare_price;
+package com.example.xiangmu.search_quan;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -6,8 +6,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.widget.ImageView;
-
-import com.example.xiangmu.main_layout.search_main;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -26,7 +24,6 @@ public class ImageLoader {
             super.handleMessage(msg);
             if(mImageView.getTag().equals(mUrl)){
                 mImageView.setImageBitmap((Bitmap) msg.obj);
-                search_main.dialog.dismiss();
             }
         }
     };
