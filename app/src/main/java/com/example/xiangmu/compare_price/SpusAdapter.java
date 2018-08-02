@@ -21,7 +21,7 @@ import com.example.xiangmu.Log_Regist_Forget.MainActivity;
 import com.example.xiangmu.R;
 import java.io.IOException;
 import java.util.List;
-import middle_commodity.Spus;
+import com.example.xiangmu.middle_commodity.Spus;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -148,7 +148,7 @@ public class SpusAdapter extends ArrayAdapter<Spus> {
                     Toast.makeText(getContext(),"加入购物车成功!", Toast.LENGTH_SHORT).show();
                     break;
                 case FAIL:
-                    Toast.makeText(getContext(),"加入购物车失败!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"购物车已经有该商品了喔亲!", Toast.LENGTH_SHORT).show();
                     break;
                 case ERROR:
                     Toast.makeText(getContext(),"网络错误!", Toast.LENGTH_SHORT).show();

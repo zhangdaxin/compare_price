@@ -2,17 +2,13 @@ package com.example.xiangmu.main_layout;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.speech.RecognizerIntent;
-import android.speech.SpeechRecognizer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,37 +16,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.example.xiangmu.JsonParser;
 import com.example.xiangmu.Mall_navigation.mall_navigation;
 import com.example.xiangmu.R;
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
-import com.iflytek.cloud.RecognizerListener;
 import com.iflytek.cloud.RecognizerResult;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechError;
-import com.iflytek.cloud.SpeechSynthesizer;
 import com.iflytek.cloud.SpeechUtility;
-import com.iflytek.cloud.SynthesizerListener;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.File;
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import static android.app.Activity.RESULT_OK;
 
 
@@ -58,29 +51,20 @@ public class home_page extends Fragment implements View.OnClickListener {
     private ImageView voice;
     private ImageView voice1;
     private EditText input;
-    private EditText search_keyword;
     private Dialog dialog;
     private View view;
-    private View view1;
     public ImageView cross1;
     Intent intent;
-    private LinearLayout historical_price1;
+    private LinearLayout save_9kuai9;
     private LinearLayout mall_navigation1;
     private LinearLayout save_money1;
     private LinearLayout discount_coupon1;
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 1234;
-    // 语音识别对象
-//    private SpeechRecognizer recognizer;
-//
-//    //语音合成对象
-//   // private SpeechSynthesizer speaker;
-//
-//    //识别出来的句子
-//    StringBuilder sentence = null ;
-//
-//    //麦克风按钮
-//    private ImageView startRecord ;
-// 用HashMap存储听写结果
+    public ListView listView;
+    public List<home_modes> hm=new ArrayList<home_modes>();
+    public static final int SUCCESS=0;
+    public home_modes_adapter adapter;
+    // 用HashMap存储听写结果
     private HashMap<String, String> mIatResults = new LinkedHashMap<String , String>();
 
     @Nullable
@@ -96,6 +80,8 @@ public class home_page extends Fragment implements View.OnClickListener {
         initView();
         initListener();
         initSpeech();
+        getHome_modes();
+        initShowModes();
     }
 
     public void initListener() {
@@ -107,6 +93,7 @@ public class home_page extends Fragment implements View.OnClickListener {
         mall_navigation1.setOnClickListener(this);
         discount_coupon1.setOnClickListener(this);
         save_money1.setOnClickListener(this);
+        save_9kuai9.setOnClickListener(this);
     }
     private void initSpeech() {
         // 将“12345678”替换成您申请的 APPID，申请地址： http://www.xfyun.cn
@@ -125,9 +112,9 @@ public class home_page extends Fragment implements View.OnClickListener {
         voice1=view.findViewById(R.id.voice1);
         discount_coupon1=getActivity().findViewById(R.id.discount_coupon1);
         save_money1=getActivity().findViewById(R.id.save_money1);
-        historical_price1=getActivity().findViewById(R.id.historical_price1);
+        save_9kuai9=getActivity().findViewById(R.id.save_9kuai9);
         mall_navigation1=getActivity().findViewById(R.id.mall_navigation1);
-        search_keyword=getActivity().findViewById(R.id.search_keyword);
+        listView=getActivity().findViewById(R.id.home_modes_list);
     }
 
     public void show(View view) {
@@ -174,12 +161,125 @@ public class home_page extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.save_money1:
-                intent=new Intent(getActivity(),Search_quan.class);
+                 intent=new Intent(getActivity(),Search_quan.class);
+                 startActivity(intent);
+                 break;
+            case R.id.save_9kuai9:
+                intent=new Intent(getActivity(),Save_9kuai9_main.class);
                 startActivity(intent);
                 break;
         }
     }
+    class NewsAsyncTask extends AsyncTask<String, Void, List<home_modes>> {
+        /**
+         * 每一个List都代表一行数据
+         *
+         * @param
+         * @return
+         */
+        @Override
+        protected List<home_modes> doInBackground(String... strings) {
+            return null;
+        }
 
+        protected void onPostExecute(List<home_modes> modes) {
+            super.onPostExecute(modes);
+            adapter = new home_modes_adapter(getContext(),R.layout.activity_home_modes, hm);
+            listView.setAdapter(adapter);
+            hm.clear();
+        }
+
+    }
+    /*
+异步处理
+*/
+    Handler handler=new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what)
+            {
+                case SUCCESS:
+                    NewsAsyncTask s=new NewsAsyncTask();
+                    s.onPostExecute(hm);
+                    break;
+            }
+        }
+    };
+
+    private void getHome_modes() {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                OkHttpClient client = new OkHttpClient();
+
+                Request request = new Request.Builder()
+                        .url("https://www.yayams.com/jiu/")
+                        .build();
+                Response response = null;
+                try {
+                    response = client.newCall(request).execute();
+                    String responseData = response.body().string();
+                    dealwith(responseData);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    private void dealwith(String html) {
+        String count=null;
+        String url1=null;
+        String pic_url = null;
+        String new_price=null;
+        String title=null;
+        String old_price=null;
+        String quan=null;
+
+        org.jsoup.nodes.Document document = Jsoup.parse(html);
+        Elements elements = document.select("div[class=list-good buy]");
+        Log.d("", "dealwith: "+elements);
+        for (org.jsoup.nodes.Element element : elements) {
+            //   销量  领券前的价钱 领券后的价钱
+            Elements elementsByClass = element.getElementsByClass("good-price");
+            for (org.jsoup.nodes.Element element2 : elementsByClass) {
+                new_price=element2.getElementsByClass("price-current").text();
+                new_price=new_price+"领券后";
+                old_price=element2.getElementsByClass("price-old").text();
+            }
+            //   title
+            Elements elementsByClass1 = element.getElementsByClass("good-title");
+            for (org.jsoup.nodes.Element element2 : elementsByClass1) {
+                title= element2.getElementsByTag("a").text();
+                count = element2.getElementsByClass("sold").text();
+            }
+
+            //   pic_url
+            Elements elementsByClass2 = element.getElementsByClass("good-pic");
+            for (org.jsoup.nodes.Element element2 : elementsByClass2) {
+                pic_url= element2.getElementsByTag("img").attr("d-src");
+            }
+            //url    券
+            Elements elementsByClass3 = element.getElementsByClass("lingquan");
+            quan=element.getElementsByClass("lingquan").text();
+            quan=quan.substring(quan.indexOf("省")+1,quan.indexOf("元"));
+            for (org.jsoup.nodes.Element element2 : elementsByClass3) {
+                url1= element2.getElementsByTag("a").attr("href");
+                url1="https://www.yayams.com"+url1;
+            }
+            home_modes h= new home_modes(pic_url,title,new_price,old_price,"券￥"+quan, count+"件", url1);
+            hm.add(h);
+        }
+    }
+
+    private void initShowModes() {
+        handler.sendEmptyMessage(SUCCESS);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -197,55 +297,6 @@ public class home_page extends Fragment implements View.OnClickListener {
             Toast.makeText(getActivity(), ""+resultString+"", Toast.LENGTH_SHORT).show();
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-
-    class MySynthesizerListener implements SynthesizerListener {
-
-        @Override
-        public void onSpeakBegin() {
-            showTip(" 开始播放 ");
-        }
-
-        @Override
-        public void onSpeakPaused() {
-            showTip(" 暂停播放 ");
-        }
-
-        @Override
-        public void onSpeakResumed() {
-            showTip(" 继续播放 ");
-        }
-
-        @Override
-        public void onBufferProgress(int percent, int beginPos, int endPos ,
-                                     String info) {
-            // 合成进度
-        }
-
-        @Override
-        public void onSpeakProgress(int percent, int beginPos, int endPos) {
-            // 播放进度
-        }
-
-        @Override
-        public void onCompleted(SpeechError error) {
-            if (error == null) {
-                showTip("播放完成 ");
-            } else if (error != null ) {
-                showTip(error.getPlainDescription( true));
-            }
-        }
-
-        @Override
-        public void onEvent(int eventType, int arg1 , int arg2, Bundle obj) {
-            // 以下代码用于获取与云端的会话 id，当业务出错时将会话 id提供给技术支持人员，可用于查询会话日志，定位出错原因
-            // 若使用本地能力，会话 id为null
-            //if (SpeechEvent.EVENT_SESSION_ID == eventType) {
-            //     String sid = obj.getString(SpeechEvent.KEY_EVENT_SESSION_ID);
-            //     Log.d(TAG, "session id =" + sid);
-            //}
-        }
     }
 
     private void startSpeechDialog() {
@@ -321,58 +372,6 @@ public class home_page extends Fragment implements View.OnClickListener {
         }
     }
 
-    /**
-     * 语音识别
-     */
-    private void startSpeech() {
-        //1. 创建SpeechRecognizer对象，第二个参数： 本地识别时传 InitListener
-        com.iflytek.cloud.SpeechRecognizer mIat = com.iflytek.cloud.SpeechRecognizer.createRecognizer( getActivity(), null); //语音识别器
-        //2. 设置听写参数，详见《 MSC Reference Manual》 SpeechConstant类
-        mIat.setParameter(SpeechConstant. DOMAIN, "iat" );// 短信和日常用语： iat (默认)
-        mIat.setParameter(SpeechConstant. LANGUAGE, "zh_cn" );// 设置中文
-        mIat.setParameter(SpeechConstant. ACCENT, "mandarin" );// 设置普通话
-        //3. 开始听写
-        mIat.startListening( mRecoListener);
-    }
-
-    // 听写监听器
-    private RecognizerListener mRecoListener = new RecognizerListener() {
-        // 听写结果回调接口 (返回Json 格式结果，用户可参见附录 13.1)；
-//一般情况下会通过onResults接口多次返回结果，完整的识别内容是多次结果的累加；
-//关于解析Json的代码可参见 Demo中JsonParser 类；
-//isLast等于true 时会话结束。
-        public void onResult(RecognizerResult results, boolean isLast) {
-           // Log.e (TAG, results.getResultString());
-            System.out.println(results.getResultString()) ;
-            showTip(results.getResultString()) ;
-        }
-
-        // 会话发生错误回调接口
-        public void onError(SpeechError error) {
-            showTip(error.getPlainDescription(true)) ;
-            // 获取错误码描述
-           // Log. e(TAG, "error.getPlainDescription(true)==" + error.getPlainDescription(true ));
-        }
-
-        // 开始录音
-        public void onBeginOfSpeech() {
-            showTip(" 开始录音 ");
-        }
-
-        //volume 音量值0~30， data音频数据
-        public void onVolumeChanged(int volume, byte[] data) {
-            showTip(" 声音改变了 ");
-        }
-
-        // 结束录音
-        public void onEndOfSpeech() {
-            showTip(" 结束录音 ");
-        }
-
-        // 扩展用接口
-        public void onEvent(int eventType, int arg1 , int arg2, Bundle obj) {
-        }
-    };
 
     private void showTip (String data) {
         Toast.makeText(getActivity(), data, Toast.LENGTH_SHORT).show() ;

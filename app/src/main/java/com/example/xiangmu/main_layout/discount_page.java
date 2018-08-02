@@ -8,12 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.xiangmu.R;
 
 public class discount_page extends Fragment implements View.OnClickListener {
     Intent intent;
-    EditText discount;
+    TextView discount;
 
     @Nullable
     @Override

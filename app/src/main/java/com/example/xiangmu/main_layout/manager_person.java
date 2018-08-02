@@ -58,6 +58,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import okhttp3.FormBody;
@@ -407,7 +408,7 @@ public class manager_person extends AppCompatActivity implements View.OnClickLis
         Bundle extras = data.getExtras();
         if (extras != null) {
             iBitmap= extras.getParcelable("data");
-            path = FileUtilcll.saveFile(this, "temphead.jpg", iBitmap);
+            path = FileUtilcll.saveFile(this, UUID.randomUUID()+".jpg", iBitmap);
             System.out.println("----------路径----------" + path);
             Log.d(TAG, "setImageToView: "+extras);
         }

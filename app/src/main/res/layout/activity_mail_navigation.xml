@@ -4,7 +4,45 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/orange1"
+        >
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            >
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"
+            >
+        <ImageView
+            android:id="@+id/return9"
+            android:layout_width="30dp"
+            android:layout_gravity="center"
+            android:src="@drawable/return2"
+            android:layout_height="30dp" />
+        </LinearLayout>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="商城导航"
+            android:textColor="#FFFF"
+            android:textSize="25sp" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            >
+        </LinearLayout>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="120dp"
@@ -142,7 +180,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="使用说明:"
-            android:textSize="18sp"/>
+            android:textSize="16sp"/>
 
     </LinearLayout>
     <LinearLayout
@@ -155,7 +193,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="为了方便用户进行更好的购物选择,点击上面的各大商城即可跳转到相应商城的官网让你方便购物!"
-            android:textSize="18sp"/>
+            android:textSize="16sp"/>
 
     </LinearLayout>
 </LinearLayout>

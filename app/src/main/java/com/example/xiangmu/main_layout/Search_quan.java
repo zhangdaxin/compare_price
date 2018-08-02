@@ -1,12 +1,15 @@
 package com.example.xiangmu.main_layout;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.example.xiangmu.R;
@@ -21,22 +24,29 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class Search_quan extends AppCompatActivity {
+public class Search_quan extends AppCompatActivity implements View.OnClickListener {
     public static final int SUCCESS=0;
     public static final int FAIL=1;
     private ListView listView;
+    private ImageView return10;
     private Search_quan_Adapter adapter;
     public static List<Quan_Mode> qm=new ArrayList<Quan_Mode>();
     public static ProgressDialog dialog;
+    Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_quan);
         initView();
+        initListener();
         dialog.show();
         getQuanModes();
         getQuanModes1();
         handler.sendEmptyMessage(SUCCESS);
+    }
+
+    private void initListener() {
+        return10.setOnClickListener(this);
     }
 
     /*
@@ -98,7 +108,7 @@ public class Search_quan extends AppCompatActivity {
                 try {
                     response = client.newCall(request).execute();
                     String responseData = response.body().string();
-                    dealwith(responseData);
+                    dealwith1(responseData);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (Exception e) {
@@ -107,8 +117,52 @@ public class Search_quan extends AppCompatActivity {
             }
         }).start();
     }
-
     public static void dealwith(String html) throws Exception{
+        String count=null;
+        String url1=null;
+        String pic_url = null;
+        String new_price=null;
+        String title=null;
+        String old_price=null;
+        String quan=null;
+
+        org.jsoup.nodes.Document document = Jsoup.parse(html);
+        Elements elements = document.select("div[class=list-good buy]");
+        Log.d("", "dealwith: "+elements);
+        for (org.jsoup.nodes.Element element : elements) {
+            //   销量  领券前的价钱 领券后的价钱
+            Elements elementsByClass = element.getElementsByClass("good-price");
+            for (org.jsoup.nodes.Element element2 : elementsByClass) {
+                new_price=element2.getElementsByClass("price-current").text();
+                new_price=new_price+"领券后";
+
+                old_price=element2.getElementsByClass("price-old").text();
+                quan=element2.getElementsByClass("item-coupon mui-act-item-couponColor").text();
+                quan=quan.substring(0,quan.length()-1);
+                count = element2.getElementsByClass("sold").text();
+            }
+            //   title
+            Elements elementsByClass1 = element.getElementsByClass("good-title");
+            for (org.jsoup.nodes.Element element2 : elementsByClass1) {
+                title= element2.getElementsByTag("a").text();
+            }
+
+            //   pic_url
+            Elements elementsByClass2 = element.getElementsByClass("good-pic");
+            for (org.jsoup.nodes.Element element2 : elementsByClass2) {
+                pic_url= element2.getElementsByTag("img").attr("data-original");
+            }
+            //url
+            Elements elementsByClass3 = element.getElementsByClass("lingquan");
+            for (org.jsoup.nodes.Element element2 : elementsByClass3) {
+                url1= element2.getElementsByTag("a").attr("href");
+                url1="http://www.ataoju.com"+url1;
+            }
+            Quan_Mode d= new Quan_Mode(pic_url, title ,new_price,old_price,quan, count, url1);
+            qm.add(d);
+        }
+    }
+    public static void dealwith1(String html) throws Exception{
 
         String count=null;
         String url1=null;
@@ -154,6 +208,18 @@ public class Search_quan extends AppCompatActivity {
             qm.add(d);
         }
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId())
+        {
+            case R.id.return10:
+                intent=new Intent(Search_quan.this,main_layout.class);
+                startActivity(intent);
+                break;
+        }
+    }
+
     class NewsAsyncTask extends AsyncTask<String, Void, List<Quan_Mode>> {
         /**
          * 每一个List都代表一行数据
@@ -184,5 +250,6 @@ public class Search_quan extends AppCompatActivity {
         dialog.setCancelable(false);
 
         listView =findViewById(R.id.search_quan_list);
+        return10=findViewById(R.id.return10);
     }
 }

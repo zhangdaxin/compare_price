@@ -1,4 +1,4 @@
-package com.example.xiangmu.discount;
+package com.example.xiangmu.main_layout;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,16 +14,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.xiangmu.R;
+import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.xiangmu.main_layout.discount_page1.dm;
 
-
-public class Discount_Mode_Adapter extends ArrayAdapter<Discount_Mode> {
+public class home_modes_adapter extends ArrayAdapter<home_modes> {
+    public List<home_modes> hm=new ArrayList<home_modes>();
     private int resourceId;
     Intent intent;
-    public Discount_Mode_Adapter(@NonNull Context context, int resource, @NonNull List<Discount_Mode> objects) {
-        super(context, resource, objects);
+    public home_modes_adapter(@NonNull Context context, int resource, @NonNull List<home_modes> objects) {
+        super(context,resource,objects);
+        hm=objects;
         resourceId=resource;
     }
 
@@ -34,52 +35,49 @@ public class Discount_Mode_Adapter extends ArrayAdapter<Discount_Mode> {
         View view;
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            view= LayoutInflater.from(getContext()).inflate(R.layout.activity_discount_modes,parent,false);
-            viewHolder.img=view.findViewById(R.id.discount_pic_modes);
-            viewHolder.title=view.findViewById(R.id.discount_title);
-            viewHolder.new_money=view.findViewById(R.id.discount_new_money);
-            viewHolder.old_money=view.findViewById(R.id.discount_old_money);
-            viewHolder.discount_month_sales=view.findViewById(R.id.discount_months_sales);
-            viewHolder.go_to_get=view.findViewById(R.id.go_to_get);
-
+            view= LayoutInflater.from(getContext()).inflate(R.layout.activity_home_modes,parent,false);
+            viewHolder.img=view.findViewById(R.id.home_pic_modes);
+            viewHolder.title=view.findViewById(R.id.home_title);
+            viewHolder.new_money=view.findViewById(R.id.home_new_money);
+            viewHolder.old_money=view.findViewById(R.id.home_old_money);
+            viewHolder.months_sales=view.findViewById(R.id.home_months_sales);
+            viewHolder.go_to_get=view.findViewById(R.id.go_to_get_quan2);
+            viewHolder.quan=view.findViewById(R.id.home_quan);
             view.setTag(viewHolder);//将ViewHolder储存在View中
         } else {
             view=convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        String url=dm.get(position).getPic_url();
+        String url=hm.get(position).getPic_url();
         Log.d("", "getView: "+url);
-
         viewHolder.img.setTag(url);
         new ImageLoader().showImageByThead(viewHolder.img,url);
-        viewHolder.title.setText(dm.get(position).getTitle());
-        viewHolder.new_money.setText(dm.get(position).getNew_money());
-        viewHolder.old_money.setText(dm.get(position).getOld_money());
-        viewHolder.discount_month_sales.setText(dm.get(position).getMonth_sales());
-
+        viewHolder.title.setText(hm.get(position).getTitle());
+        viewHolder.new_money.setText(hm.get(position).getNew_money());
+        viewHolder.old_money.setText(hm.get(position).getOld_money());
+        viewHolder.months_sales.setText(hm.get(position).getCount());
+        viewHolder.quan.setText(hm.get(position).getQuan());
         viewHolder.go_to_get.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent=new Intent();//创建Intent对象
                 intent.setAction(Intent.ACTION_VIEW);//为Intent设置动作
-                intent.setData(Uri.parse(dm.get(position).getUrl()));//为Intent设置数据
-                Log.d("", "onClick: "+dm.get(position).getUrl());
+                intent.setData(Uri.parse(hm.get(position).getUrl()));//为Intent设置数据
+                Log.d("", "onClick: "+hm.get(position).getUrl());
                 getContext().startActivity(intent);//将Intent传递给Activity
             }
         });
         return view;
     }
 
-    //https://passport.jd.com/uc/login?ReturnUrl=https%3A%2F%2Forder.jd.com%2Fcenter%2Flist.action
-    //https://buyertrade.taobao.com/trade/itemlist/list_bought_items.htm?spm=a1z02.1.a2109.d1000368.a1c6782dXlABIJ&nekot=1470211439694
-
 
     class ViewHolder {
         ImageView img;
         TextView title;
         TextView new_money;
-        TextView discount_month_sales;
+        TextView months_sales;
         TextView old_money;
+        TextView quan;
         Button go_to_get;
     }
 }

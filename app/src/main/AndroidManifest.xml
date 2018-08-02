@@ -82,7 +82,9 @@
         <!-- android:label="@string/title_activity_null_modes" -->
         <!-- android:theme="@style/AppTheme" /> -->
         <!-- <activity android:name=".Shopping_Car.have_modes"></activity> -->
-        <activity android:name=".main_layout.Search_quan"></activity>
+        <activity android:name=".main_layout.Search_quan" />
+        <activity android:name=".main_layout.Save_9kuai9_main" />
+        <activity android:name=".main_layout.activity_find_order"></activity>
     </application>
 
 </manifest>

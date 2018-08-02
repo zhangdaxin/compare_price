@@ -94,7 +94,7 @@ public class have_modes extends Fragment implements View.OnClickListener {
         bt_delete = getActivity().findViewById(R.id.bt_delete);
         choose_all = getActivity().findViewById(R.id.cb_choose_all);
         listView = getActivity().findViewById(R.id.shopping_car_list);
-        View v=LayoutInflater.from(getContext()).inflate(R.layout.activity_shopping_car,null);
+       // View v=LayoutInflater.from(getContext()).inflate(R.layout.activity_shopping_car,null);
     }
 
     @Override
@@ -199,7 +199,6 @@ public class have_modes extends Fragment implements View.OnClickListener {
                 shopping_car_adapter = new shopping_car_adapter(getActivity(), R.layout.activity_shopping_car_list, mos);
                 Log.d("", "onPostExecute: " + mos);
                 listView.setAdapter(shopping_car_adapter);
-                dialog.dismiss();
             }
         }
 

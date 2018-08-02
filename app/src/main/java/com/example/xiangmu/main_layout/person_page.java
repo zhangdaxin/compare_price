@@ -33,9 +33,14 @@ import java.net.URL;
 
 public class person_page extends Fragment implements View.OnClickListener {
     private LinearLayout person_manage;
+    private LinearLayout alter_message;
+    private LinearLayout my_shopping_car;
+    private LinearLayout find_order;
+    private LinearLayout clean_rubbish;
     private TextView username;
     public  Bitmap bitmap;
     private ImageView head;
+    Intent intent;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -52,13 +57,21 @@ public class person_page extends Fragment implements View.OnClickListener {
 
     private void initListener() {
         person_manage.setOnClickListener(this);
+        alter_message.setOnClickListener(this);
+        my_shopping_car.setOnClickListener(this);
+        find_order.setOnClickListener(this);
+        clean_rubbish.setOnClickListener(this);
     }
 
     private void initView() {
         person_manage = getActivity().findViewById(R.id.person_manage);
         username = getActivity().findViewById(R.id.user_name);
         head=getActivity().findViewById(R.id.head_1);
-//        Getimageid.interaction();
+        alter_message=getActivity().findViewById(R.id.alter_message);
+        my_shopping_car=getActivity().findViewById(R.id.my_shopping_car);
+        find_order=getActivity().findViewById(R.id.find_order);
+        clean_rubbish=getActivity().findViewById(R.id.clean_rubbish);
+
         if (!MainActivity.image.equals("null")) {
             Log.d("", "getImage: " + MainActivity.image);
             new Thread(new Runnable() {
@@ -110,9 +123,25 @@ public class person_page extends Fragment implements View.OnClickListener {
         switch (v.getId())
         {
             case R.id.person_manage:
-                Intent intent=new Intent(getActivity(),manager_person.class);
+                intent=new Intent(getActivity(),manager_person.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.enter,R.anim.exit);
+                break;
+            case R.id.alter_message:
+                intent=new Intent(getActivity(),manager_person.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.enter,R.anim.exit);
+                break;
+            case R.id.my_shopping_car:
+                main_layout.choose=3;
+                intent=new Intent(getActivity(),main_layout.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.dong, R.anim.dong1);
+                break;
+            case R.id.find_order:
+                break;
+            case R.id.clean_rubbish:
+                Toast.makeText(getActivity(), "清理成功!", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

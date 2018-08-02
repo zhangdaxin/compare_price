@@ -2,7 +2,7 @@ package com.example.xiangmu.discount;
 
 public class Discount_Mode {
     String pic_url;
-    String discount;
+    String month_sales;
     String url;
     String old_money;
     String new_money;
@@ -11,11 +11,11 @@ public class Discount_Mode {
 
     }
 
-    public Discount_Mode(String pic_url,String title,String new_money,String old_money,String discount,String url){
+    public Discount_Mode(String pic_url,String title,String new_money,String old_money,String month_sales,String url){
     this.pic_url=pic_url;
     this.title=title;
     this.new_money=new_money;
-    this.discount=discount;
+    this.month_sales=month_sales;
     this.url=url;
     this.old_money=old_money;
     }
@@ -28,12 +28,12 @@ public class Discount_Mode {
         this.title = title;
     }
 
-    public String getDiscount() {
-        return discount;
+    public String getMonth_sales() {
+        return month_sales;
     }
 
-    public void setDiscount(String discount) {
-        this.discount = discount;
+    public void setMonth_sales(String month_sales) {
+        this.month_sales = month_sales;
     }
 
     public String getNew_money() {

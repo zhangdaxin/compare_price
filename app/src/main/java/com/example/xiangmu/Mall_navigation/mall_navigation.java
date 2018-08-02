@@ -5,9 +5,11 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.xiangmu.R;
+import com.example.xiangmu.main_layout.main_layout;
 
 public class mall_navigation extends AppCompatActivity implements View.OnClickListener {
   private LinearLayout tianma;
@@ -15,6 +17,7 @@ public class mall_navigation extends AppCompatActivity implements View.OnClickLi
   private LinearLayout jingdong;
   private LinearLayout alibaba;
   private LinearLayout suningyigou;
+  private ImageView return9;
   Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class mall_navigation extends AppCompatActivity implements View.OnClickLi
         jingdong=findViewById(R.id.jingdong);
         alibaba=findViewById(R.id.alibaba);
         suningyigou=findViewById(R.id.suningyigou);
+        return9=findViewById(R.id.return9);
     }
 
     @Override
@@ -73,6 +77,10 @@ public class mall_navigation extends AppCompatActivity implements View.OnClickLi
                 intent.setAction(Intent.ACTION_VIEW);//为Intent设置动作
                 intent.setData(Uri.parse("https://www.suning.com/"));//为Intent设置数据
                 startActivity(intent);//将Intent传递给Activity
+                break;
+            case R.id.return9:
+                intent=new Intent(mall_navigation.this,main_layout.class);
+                startActivity(intent);
                 break;
 
         }

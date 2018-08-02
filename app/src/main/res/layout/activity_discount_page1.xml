@@ -21,7 +21,7 @@
         <EditText
             android:id="@+id/discount_keyword"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="30dp"
             android:layout_weight="1.5"
             android:hint="搜索全网最新国内折扣"
             android:textSize="18sp"

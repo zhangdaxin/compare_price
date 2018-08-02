@@ -51,11 +51,12 @@ public class shopping_car extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case NULL:
-                    dialog.dismiss();
                     replaceFragment(new null_modes());
+                    dialog.dismiss();
                     break;
                 case SUCCESS:
                     replaceFragment(new have_modes());
+                    dialog.dismiss();
                     break;
                 case FAIL:
                     dialog.dismiss();

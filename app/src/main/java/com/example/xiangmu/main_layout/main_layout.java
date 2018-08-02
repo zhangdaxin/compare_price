@@ -74,21 +74,14 @@ public class main_layout extends AppCompatActivity implements View.OnClickListen
         {
             case 1:
                 replaceFragment(new home_page());
-                a=true;
-                if(a==true)
-                {
-                    home_page1.setTextColor(getResources().getColor(R.color.orange1));
-                    home_page.setImageResource(R.drawable.homepage_1);
-                }
+                home_page1.setTextColor(getResources().getColor(R.color.orange1));
+                home_page.setImageResource(R.drawable.homepage_1);
                 break;
             case 2:
                 replaceFragment(new search_page());
-                b=true;
-                if(b==true)
-                {
-                    search1.setTextColor(getResources().getColor(R.color.orange1));
-                    search.setImageResource(R.drawable.search_1);
-                }
+                search1.setTextColor(getResources().getColor(R.color.orange1));
+                search.setImageResource(R.drawable.search_1);
+
                 break;
             case 3:
                 replaceFragment(new shopping_car());

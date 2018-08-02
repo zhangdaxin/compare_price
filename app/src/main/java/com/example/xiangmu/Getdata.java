@@ -1,7 +1,6 @@
 package com.example.xiangmu;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.example.xiangmu.main_layout.search_main;
@@ -11,23 +10,13 @@ import com.example.xiangmu.pageName_mainsrp.JsonRootBean;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-import middle_commodity.MyPojo;
-import middle_commodity.Spus;
+import com.example.xiangmu.middle_commodity.MyPojo;
+import com.example.xiangmu.middle_commodity.Spus;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;

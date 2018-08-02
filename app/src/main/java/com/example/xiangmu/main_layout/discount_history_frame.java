@@ -142,7 +142,7 @@ public class discount_history_frame extends Fragment implements View.OnClickList
                 OkHttpClient client = new OkHttpClient();
 
                 Request request = new Request.Builder()
-                        .url("http://search.shopin.net/search/"+discountkeyword+"+.html")
+                        .url("http://www.suiyizhe.com/?m=search&a=index&k="+discountkeyword)
                         .build();
                 Response response = null;
                 try {
@@ -159,30 +159,45 @@ public class discount_history_frame extends Fragment implements View.OnClickList
     }
 
     public static void dealwith(String html) throws Exception {
-        String discount = null;
+        String month_sales = null;
         String url1 = null;
         String pic_url = null;
         String new_price = null;
         String title = null;
         String old_price = null;
-
         org.jsoup.nodes.Document document = Jsoup.parse(html);
-            Elements elements = document.select("div[class=content addOn clear]");
-            for (org.jsoup.nodes.Element element : elements) {
-                Elements elements2 = element.getElementsByTag("li");
-                for (org.jsoup.nodes.Element element2 : elements2) {
-                    url1 = element2.getElementsByTag("a").attr("href");
-                    pic_url = element2.getElementsByTag("img").attr("data-original");
-                    title = element2.getElementsByClass("productName").text();
-                    new_price = element2.getElementsByClass("price").text();
-                    discount = element2.getElementsByClass("discount").text();
-                    old_price = element2.getElementsByClass("gray").text();
+        Elements elements = document.select("div[class=list-good buy]");
+        Log.d("", "dealwith: " + elements);
+        for (org.jsoup.nodes.Element element : elements) {
+            //   销量  领券前的价钱 领券后的价钱
+            Elements elementsByClass = element.getElementsByClass("good-price");
+            for (org.jsoup.nodes.Element element2 : elementsByClass) {
+                new_price = element2.getElementsByClass("price-current").text();
+                new_price = new_price + "领券后";
+                old_price = element2.getElementsByClass("price-old").text();
+            }
+            //   title
+            Elements elementsByClass1 = element.getElementsByClass("good-title");
+            for (org.jsoup.nodes.Element element2 : elementsByClass1) {
+                title = element2.getElementsByTag("a").text();
+                month_sales = element2.getElementsByClass("sold").text();
+            }
 
-                    Discount_Mode d = new Discount_Mode(pic_url, title, "打折后:" + new_price, "原价:" + old_price, discount, url1);
-                    dm.add(d);
-                }
+            //   pic_url
+            Elements elementsByClass2 = element.getElementsByClass("good-pic");
+            for (org.jsoup.nodes.Element element2 : elementsByClass2) {
+                pic_url = element2.getElementsByTag("img").attr("data-original");
+            }
+            //url
+            Elements elementsByClass3 = element.getElementsByClass("lingquan");
+            for (org.jsoup.nodes.Element element2 : elementsByClass3) {
+                url1 = element2.getElementsByTag("a").attr("href");
+                url1="http://www.suiyizhe.com"+url1;
+            }
+            Discount_Mode d = new Discount_Mode(pic_url, title, new_price, old_price+"(折)", month_sales+"件", url1);
+            dm.add(d);
         }
     }
-    }
+}
 
 

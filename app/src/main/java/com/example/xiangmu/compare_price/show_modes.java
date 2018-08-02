@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.example.xiangmu.R;
 import com.example.xiangmu.main_layout.search_main;
 import java.util.List;
-import middle_commodity.Spus;
+import com.example.xiangmu.middle_commodity.Spus;
 import static com.example.xiangmu.Getdata.sp;
 
 
