@@ -7,17 +7,29 @@
     >
     <LinearLayout
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:padding="10dp"
+        android:layout_height="0dp"
+        android:layout_weight="1.6"
+        android:padding="5dp"
         android:layout_gravity="center"
+        android:orientation="horizontal"
         >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:layout_marginLeft="1dp"
-            android:src="@drawable/phone" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.34"
+            android:gravity="center"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/phone" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            >
         <EditText
             android:id="@+id/phone_number_3"
             android:textColor="#fa6d6f"
@@ -25,67 +37,79 @@
             android:layout_height="40dp"
             android:background="@drawable/line_et_bg"
             android:hint="请输入手机号码:"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="8dp"
             android:textColorHint="#fa6d6f"
             />
-
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:layout_height="0dp"
+        android:layout_weight="1.6"
+        android:padding="5dp"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="15dp"
         >
 
-        <ImageView
-            android:layout_width="26dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/message" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.34"
+            android:gravity="center">
 
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="30dp"
+                android:src="@drawable/message" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            >
         <EditText
             android:id="@+id/message_4"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@drawable/line_et_bg"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="8dp"
             android:hint="请输入验证码:"
             android:textColor="#fa6d6f"
             android:textColorHint="#fa6d6f" />
-
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            >
         <Button
             android:id="@+id/send_message_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
             android:textColor="#FFFF"
             android:background="@drawable/shape_button"
             android:text="发送验证码" />
-
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.6"
+        android:gravity="center"
         android:padding="15dp">
-
         <Button
             android:id="@+id/next"
-            android:layout_width="match_parent"
+            android:layout_width="280dp"
             android:layout_height="45dp"
-            android:textColor="#FFFF"
             android:background="@drawable/shape_button"
-            android:text="下一步" />
-
-
+            android:text="下一步"
+            android:textColor="#FFFF" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
     </LinearLayout>
 
 </LinearLayout>

@@ -240,7 +240,6 @@ public class manager_person extends AppCompatActivity implements View.OnClickLis
         builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, final int which) {
-
                  sex.setText(items[which]);
                 //progressDialog.show();
                 new Thread(new Runnable() {

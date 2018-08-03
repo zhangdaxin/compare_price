@@ -77,7 +77,7 @@ public class SpusAdapter extends ArrayAdapter<Spus> {
         new ImageLoader().showImageByThead(viewHolder.img,url);
         viewHolder.introduction1.setText(sp.get(position).getTitle());
         viewHolder.shop1.setText(sp.get(position).getShop());
-        viewHolder.price1.setText(sp.get(position).getPrice());
+        viewHolder.price1.setText(String.valueOf(sp.get(position).getPrice()));
         viewHolder.months_sales.setText(sp.get(position).getMonth_sales());
         viewHolder.add_shopping_car.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +89,7 @@ public class SpusAdapter extends ArrayAdapter<Spus> {
                         RequestBody body=new FormBody.Builder()
                                 .add("userid", MainActivity.userid)
                                 .add("title",sp.get(position).getTitle())
-                                .add("price",sp.get(position).getPrice())
+                                .add("price",String.valueOf(sp.get(position).getPrice()))
                                 .add("month_sales",sp.get(position).getMonth_sales())
                                 .add("url",sp.get(position).getUrl())
                                 .add("shop",sp.get(position).getShop())

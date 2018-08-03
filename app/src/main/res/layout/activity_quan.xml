@@ -117,7 +117,6 @@
                         android:layout_height="wrap_content"
                         android:text="立即领券"
                         android:textColor="#FFF"
-
                         android:background="@drawable/shape_button"
                         />
                 </LinearLayout>

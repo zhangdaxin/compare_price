@@ -1,7 +1,6 @@
 package com.example.xiangmu.Shopping_Car;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,11 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import com.example.xiangmu.Ip;
 import com.example.xiangmu.Log_Regist_Forget.MainActivity;
 import com.example.xiangmu.R;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -28,10 +25,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-
 public class shopping_car extends Fragment {
     public static List<shopping_car_modes> mos = new ArrayList<shopping_car_modes>();
-
     public static final int NULL = 3;
     public static final int SUCCESS = 0;
     public static final int FAIL = 1;
@@ -42,7 +37,6 @@ public class shopping_car extends Fragment {
         View view = inflater.inflate(R.layout.activity_shopping_car, container, false);
         return view;
     }
-
     /*
       异常处理
      */
@@ -52,15 +46,13 @@ public class shopping_car extends Fragment {
             switch (msg.what) {
                 case NULL:
                     replaceFragment(new null_modes());
-                    dialog.dismiss();
                     break;
                 case SUCCESS:
                     replaceFragment(new have_modes());
-                    dialog.dismiss();
                     break;
                 case FAIL:
-                    dialog.dismiss();
                     Toast.makeText(getActivity(), "网络错误!获取数据失败!", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
                     break;
             }
         }

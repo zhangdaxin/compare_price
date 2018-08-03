@@ -1,13 +1,17 @@
 package com.example.xiangmu.main_layout;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +33,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.List;
 
 
 public class person_page extends Fragment implements View.OnClickListener {
@@ -36,6 +41,7 @@ public class person_page extends Fragment implements View.OnClickListener {
     private LinearLayout alter_message;
     private LinearLayout my_shopping_car;
     private LinearLayout find_order;
+    private LinearLayout commit_suggestion;
     private LinearLayout clean_rubbish;
     private TextView username;
     public  Bitmap bitmap;
@@ -61,6 +67,7 @@ public class person_page extends Fragment implements View.OnClickListener {
         my_shopping_car.setOnClickListener(this);
         find_order.setOnClickListener(this);
         clean_rubbish.setOnClickListener(this);
+        commit_suggestion.setOnClickListener(this);
     }
 
     private void initView() {
@@ -71,6 +78,7 @@ public class person_page extends Fragment implements View.OnClickListener {
         my_shopping_car=getActivity().findViewById(R.id.my_shopping_car);
         find_order=getActivity().findViewById(R.id.find_order);
         clean_rubbish=getActivity().findViewById(R.id.clean_rubbish);
+        commit_suggestion=getActivity().findViewById(R.id.commit_suggestion);
 
         if (!MainActivity.image.equals("null")) {
             Log.d("", "getImage: " + MainActivity.image);
@@ -114,7 +122,6 @@ public class person_page extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-
         }
     }
 
@@ -139,10 +146,53 @@ public class person_page extends Fragment implements View.OnClickListener {
                 getActivity().overridePendingTransition(R.anim.dong, R.anim.dong1);
                 break;
             case R.id.find_order:
+                intent=new Intent(getActivity(),activity_find_order.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.enter,R.anim.exit);
                 break;
             case R.id.clean_rubbish:
-                Toast.makeText(getActivity(), "清理成功!", Toast.LENGTH_SHORT).show();
+                onClearMemory(getContext());
+                break;
+            case R.id.commit_suggestion:
+                intent=new Intent(getActivity(),Commit_suggestion.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.enter,R.anim.exit);
                 break;
         }
     }
+
+        protected void onClearMemory(Context context) {
+            ActivityManager activityManger = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+            List<ActivityManager.RunningAppProcessInfo> list = activityManger.getRunningAppProcesses();
+                if (list != null)
+                       for (int i = 0; i < list.size(); i++) {
+                           ActivityManager.RunningAppProcessInfo apinfo = list.get(i);
+                           String[] pkgList = apinfo.pkgList;
+
+                           if (apinfo.importance >=
+                           ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+
+                                   for (int j = 0; j < pkgList.length; j++) {
+
+                                            if (pkgList[j].equals(context.getPackageName())) {
+                                                  continue;
+                                                }
+
+                                            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.FROYO) {
+                                                    activityManger.restartPackage(pkgList[j]);
+                                               } else {
+                                                   activityManger.killBackgroundProcesses(pkgList[j]);
+                                              }
+                                       }
+                               }
+                       }
+
+               new AlertDialog.Builder(getActivity())
+                       .setTitle("请注意")
+                       .setMessage("内存清理完毕")
+                       .setPositiveButton("确定", null)
+                       .show();
+              }
+
+
 }

@@ -3,6 +3,7 @@ package com.example.xiangmu;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.example.xiangmu.Shopping_Car.Sort;
 import com.example.xiangmu.main_layout.search_main;
 import com.example.xiangmu.pageName_mainsrp.Auctions;
 import com.example.xiangmu.pageName_mainsrp.JsonRootBean;
@@ -10,9 +11,15 @@ import com.example.xiangmu.pageName_mainsrp.JsonRootBean;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.example.xiangmu.middle_commodity.MyPojo;
@@ -24,8 +31,7 @@ import okhttp3.Response;
 public class Getdata {
     public static String responseData;
     public static String responseData1;
-    public static String responseData2;
-    public static List<Spus> sp=new ArrayList<Spus>();
+    public static List<Spus> sp = new ArrayList<Spus>();
     /*
     从淘宝中获取商品数据
      */
@@ -60,16 +66,17 @@ public class Getdata {
                         MyPojo m = JSON.parseObject(responseData, MyPojo.class);
                         Spus[] modes = m.getGrid().getData().getSpus();
 
-                        for (int i = 1; i < (modes.length >= 10 ? 10 : modes.length); i++) {
+                        for (int i = 0; i < (modes.length >= 10 ? 10 : modes.length); i++) {
                             String pic_url = modes[i].getPic_url();
                             String title = modes[i].getTitle();
-                            String price = modes[i].getPrice();
+                            Double price = modes[i].getPrice();
                             String month_sales = modes[i].getMonth_sales();
                             String url = "http:" + modes[i].getUrl();
                             String shop = "淘宝商城";
-
-                            Spus spus = new Spus("http:" + pic_url, title, shop + ":", "价格为:￥" + price, "月销量: " + month_sales, url);
-                            sp.add(spus);
+                            if (!pic_url.equals("") && !price.equals("")) {
+                                Spus spus = new Spus("http:" + pic_url, title, shop + ":",price, "月销量: " + month_sales, url);
+                                sp.add(spus);
+                            }
                         }
                         Log.d("", "run: " + m);
                     } else {
@@ -81,17 +88,21 @@ public class Getdata {
                         JsonRootBean j = JSON.parseObject(responseData, JsonRootBean.class);
                         Auctions[] au = j.getItemlist().getData().getAuctions();
 
-                        for (int i = 1; i <= (au.length > 10 ? 10 : au.length); i++) {
+                        for (int i = 0; i <= (au.length > 10 ? 10 : au.length); i++) {
                             String pic_url = au[i].getPic_url();
                             String title = au[i].getRaw_title();
                             String price = au[i].getView_price();
+                            Log.d("", "run: "+price);
                             String month_sales = au[i].getView_sales();
                             month_sales = month_sales.substring(0, month_sales.indexOf("人"));
                             String url = "http:" + au[i].getDetail_url();
                             String shop = "淘宝商城";
-
-                            Spus spus = new Spus("http:" + pic_url, title, shop + ":", "价格为:￥" + price, "总销量: " + month_sales, url);
+                            Double price1=Double.parseDouble(price);
+                            if (!pic_url.equals("")&&!price.equals(""))
+                            {
+                            Spus spus = new Spus("http:" + pic_url, title, shop + ":",price1, "总销量: " + month_sales, url);
                             sp.add(spus);
+                        }
                         }
                         Log.d("", "run: " + j);
                     }
@@ -100,6 +111,7 @@ public class Getdata {
                 }
             }
         }).start();
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -107,7 +119,7 @@ public class Getdata {
                 OkHttpClient client = new OkHttpClient();
 
                 Request request = new Request.Builder()
-                        .url("https://search.jd.com/Search?keyword="+search_main.searchkeyword+"&enc=utf-8")
+                        .url("https://search.jd.com/Search?keyword=" + search_main.searchkeyword + "&enc=utf-8")
                         .build();
                 Response response = null;
                 try {
@@ -122,82 +134,99 @@ public class Getdata {
             }
         }).start();
 
-      new Thread(new Runnable() {
-        @Override
-        public void run() {
-
-            OkHttpClient client = new OkHttpClient();
-
-            Request request = new Request.Builder()
-                    .url("https://search.gome.com.cn/search?question="+search_main.searchkeyword+"&searchType=goods")
-                    .build();
-            Response response = null;
-            try {
-                response = client.newCall(request).execute();
-                responseData2 = response.body().string();
-            //    dealwith2(responseData2);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }).start();
-}
-
-    public static void dealwith2(String html) {
-        String commit=null;
-        String url1=null;
-        String pic_url = null;
-        String price=null;
-        String title=null;
-        String shop="国美商城:";
-
-        org.jsoup.nodes.Document document = Jsoup.parse(html);
-        Elements elements = document.select("div[class=product-item]");
-        for(org.jsoup.nodes.Element element : elements) {
-            // 月销量  title   url  and  pic_url  价格
-            Elements elementsByClass = element.getElementsByClass("product-lists clear-fix");
-            for(org.jsoup.nodes.Element element2 : elementsByClass) {
-                Elements elementsByTag = element2.getElementsByTag("li");
-                for(Element element3 : elementsByTag) {
-                    commit = element3.getElementsByTag("input").attr("salesvolume");
-                    title= element3.getElementsByTag("input").attr("skuname");
-                    price = element3.getElementsByTag("input").attr("price");
-                    Elements elementsByTag1= element3.getElementsByTag("div");
-                    for(Element element1:elementsByTag1)
-                    {
-                        Elements elementsByTag2= element1.getElementsByTag("div");
-                        for (Element element4:elementsByTag2)
-                        {
-                            Elements elementsByTag3= element4.getElementsByClass("item-pic");
-                            for (Element element5:elementsByTag3)
-                            {
-                                url1=element5.getElementsByTag("a").attr("href");
-                                url1="http:"+url1;
-                                Elements elementsByTag4= element5.getElementsByClass("item-link");
-                                for(Element element6:elementsByTag4)
-                                {
-                                    pic_url=element6.getElementsByTag("img").attr("src");
-                                }
-                            }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection connection = null;
+                BufferedReader reader = null;
+                try {
+                    URL url = new URL("http://search.dangdang.com/?key=" + search_main.searchkeyword + "&act=input");
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.setConnectTimeout(8000);
+                    connection.setReadTimeout(8000);
+                    InputStream in = connection.getInputStream();
+                    reader = new BufferedReader(new InputStreamReader(in, "GBK"));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    String result = response.toString();
+                    Log.d("result", "run: " + result);
+                    dealwith2(result);
+                    Collections.sort(sp, new Sort());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
+                    }
+                    if (connection != null) {
+                        connection.disconnect();
                     }
                 }
             }
-            Spus s= new Spus(pic_url, title, shop , "价格为:￥" + price,"月销量为: "+commit, url1);
-            sp.add(s);
-        }
+        }).start();
+
     }
 
-    public static void dealwith(String html) throws Exception{
-        String commit=null;
-        String url1=null;
+    public static void dealwith2(String html) {
+        String commit = null;
+        String url1 = null;
         String pic_url = null;
-        String price=null;
-        String title=null;
-        String shop="京东商城:";
+        String price = null;
+        String title = null;
+        String shop = "当当商城:";
+        Double price1 = null;
+        int k=0;
 
+        org.jsoup.nodes.Document document = Jsoup.parse(html);
+        Elements elements = document.select("li[ddt-pit]");
+        for (org.jsoup.nodes.Element element : elements) {
+            if(k>=10) {
+              break;
+            }
+            // 月销量  title   url  and  pic_url  价格
+                url1 = element.getElementsByTag("a").attr("href");
+                title = element.getElementsByTag("a").attr("title");
+                price = element.getElementsByClass("price_n").text();
+                if (price.equals("")||price==null)
+                {
+                    continue;
+                }
+                price=price.substring(1,price.length());
+                pic_url = element.getElementsByTag("img").attr("data-original");
+               if (pic_url.equals("")||pic_url==null)
+               {
+                continue;
+               }
+                Elements elements1 = element.getElementsByClass("star");
+                for (org.jsoup.nodes.Element element1 : elements1) {
+                    commit = element1.getElementsByTag("a").text();
+                }
+                price1=Double.parseDouble(price);
+
+                Spus s = new Spus(pic_url, title, shop, price1, commit, url1);
+                sp.add(s);
+                k++;
+            }
+
+    }
+
+    public static void dealwith(String html) throws Exception {
+        String commit = null;
+        String url1 = null;
+        String pic_url = null;
+        String price = null;
+        String title = null;
+        String shop = "京东商城:";
+        Double price1 = null;
+        int j=0;
         org.jsoup.nodes.Document document = Jsoup.parse(html);
         Elements elements = document.select("div[class=gl-i-wrap]");
         for (org.jsoup.nodes.Element element : elements) {
@@ -207,29 +236,33 @@ public class Getdata {
                 Elements elementsByTag = element2.getElementsByTag("strong");
                 for (Element element3 : elementsByTag) {
                     commit = element3.getElementsByTag("a").text();
-                    commit=commit+"评价";
+                    commit = commit + "评价";
                 }
             }
-           //   url
-		Elements elementsByClass1 = element.getElementsByClass("p-img");
-		for (org.jsoup.nodes.Element element2 : elementsByClass1) {
-			url1 = element2.getElementsByTag("a").attr("href");
-            url1="http:"+url1;
-		}
-             //title  and  pic_url
-		Elements elementsByClass2 = element.getElementsByClass("p-img");
-		for (org.jsoup.nodes.Element element2 : elementsByClass2) {
-			title= element2.getElementsByTag("a").attr("title");
-            pic_url= element2.getElementsByTag("img").attr("source-data-lazy-img");
-			pic_url="http:"+pic_url;
-		}
-        //     价格
-		Elements elementsByClass3 = element.getElementsByClass("p-price");
-		for (org.jsoup.nodes.Element element2 : elementsByClass3) {
-			price = element2.getElementsByTag("i").text();
-		}
-		Spus s= new Spus(pic_url, title, shop , "价格为:￥" + price, commit, url1);
-		sp.add(s);
+            //   url
+            Elements elementsByClass1 = element.getElementsByClass("p-img");
+            for (org.jsoup.nodes.Element element2 : elementsByClass1) {
+                url1 = element2.getElementsByTag("a").attr("href");
+                url1 = "http:" + url1;
+            }
+            //title  and  pic_url
+            Elements elementsByClass2 = element.getElementsByClass("p-img");
+            for (org.jsoup.nodes.Element element2 : elementsByClass2) {
+                title = element2.getElementsByTag("a").attr("title");
+                pic_url = element2.getElementsByTag("img").attr("source-data-lazy-img");
+                pic_url = "http:" + pic_url;
+            }
+            //     价格
+            Elements elementsByClass3 = element.getElementsByClass("p-price");
+            for (org.jsoup.nodes.Element element2 : elementsByClass3) {
+                price = element2.getElementsByTag("i").text();
+                price1=Double.parseDouble(price);
+            }
+            if (j <= 10&&!pic_url.equals("")&&!price.equals("")) {
+                Spus s = new Spus(pic_url, title, shop,  price1, commit, url1);
+                sp.add(s);
+                j++;
+            }
         }
     }
 

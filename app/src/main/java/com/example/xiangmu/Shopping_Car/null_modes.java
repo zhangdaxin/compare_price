@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.xiangmu.R;
-
+import static com.example.xiangmu.Shopping_Car.shopping_car.dialog;
 public class null_modes extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
@@ -21,6 +21,7 @@ public class null_modes extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         initView();
         initListener();
+        dialog.dismiss();
     }
 
     private void initListener() {
@@ -34,6 +35,7 @@ public class null_modes extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
         }
     }
 }

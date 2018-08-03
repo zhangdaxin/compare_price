@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.xiangmu">
 
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
@@ -84,7 +85,8 @@
         <!-- <activity android:name=".Shopping_Car.have_modes"></activity> -->
         <activity android:name=".main_layout.Search_quan" />
         <activity android:name=".main_layout.Save_9kuai9_main" />
-        <activity android:name=".main_layout.activity_find_order"></activity>
+        <activity android:name=".main_layout.activity_find_order" />
+        <activity android:name=".main_layout.Commit_suggestion"></activity>
     </application>
 
 </manifest>

@@ -58,6 +58,7 @@ public class have_modes extends Fragment implements View.OnClickListener {
         initView();
         initListener();
         handler.sendEmptyMessage(SUCCESS);
+        dialog.dismiss();
     }
 
 

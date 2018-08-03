@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="请点击麦克风来开始识别"
-            android:textSize="23dp"
+            android:textSize="25dp"
             android:textColor="#a4a4a4"
             />
     </LinearLayout>
@@ -26,8 +26,8 @@
         >
         <ImageView
             android:id="@+id/voice1"
-            android:layout_width="120dp"
-            android:layout_height="100dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:src="@drawable/voice1" />
@@ -36,15 +36,40 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         >
-        <ImageView
-            android:id="@+id/cross"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/cha"
-            android:layout_marginTop="70dp"
-            android:layout_marginLeft="300dp"
-            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.6"
+            >
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:orientation="horizontal"
+            >
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                >
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/cross"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/cha" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                >
+            </LinearLayout>
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

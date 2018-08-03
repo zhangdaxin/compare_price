@@ -38,6 +38,7 @@ public class Regist_Activity1 extends Fragment implements View.OnClickListener {
     private ProgressDialog dialog;
     public static final int CODEERROR=1;
     public static final int SENDSUCCESS=2;
+    public static final int ERROR=3;
 
     @Nullable
     @Override
@@ -125,6 +126,7 @@ public class Regist_Activity1 extends Fragment implements View.OnClickListener {
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
+                            myHandler.sendEmptyMessage(ERROR);
                         }
                     }
                 }).start();
@@ -174,7 +176,10 @@ public class Regist_Activity1 extends Fragment implements View.OnClickListener {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-
+                case ERROR:
+                    dialog.dismiss();
+                    Toast.makeText(getActivity(), "网络错误!", Toast.LENGTH_SHORT).show();
+                    break;
                 case CODEERROR:
                     dialog.dismiss();
                     Toast.makeText(getActivity(), "验证码发送失败！请重新发送!", Toast.LENGTH_SHORT).show();
