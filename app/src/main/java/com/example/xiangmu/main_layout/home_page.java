@@ -1,6 +1,7 @@
 package com.example.xiangmu.main_layout;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -64,6 +65,7 @@ public class home_page extends Fragment implements View.OnClickListener {
     public List<home_modes> hm=new ArrayList<home_modes>();
     public static final int SUCCESS=0;
     public home_modes_adapter adapter;
+    ProgressDialog progressDialog;
     // 用HashMap存储听写结果
     private HashMap<String, String> mIatResults = new LinkedHashMap<String , String>();
 
@@ -80,10 +82,17 @@ public class home_page extends Fragment implements View.OnClickListener {
         initView();
         initListener();
         initSpeech();
-        getHome_modes();
-        initShowModes();
-    }
+        progressDialog.show();
 
+        adapter = new home_modes_adapter(getContext(),R.layout.activity_home_modes, hm);
+        listView.setAdapter(adapter);
+        update();
+        hm.clear();
+    }
+    public void update()
+    {
+        getHome_modes(handler);
+    }
     public void initListener() {
         voice.setOnClickListener(this);
         cross1.setOnClickListener(this);
@@ -101,6 +110,12 @@ public class home_page extends Fragment implements View.OnClickListener {
         SpeechUtility. createUtility(getActivity(), SpeechConstant. APPID + "=5b559918" );
     }
     public void initView() {
+        progressDialog=new ProgressDialog(getActivity());
+        progressDialog.setTitle("加载中");
+        progressDialog.setMessage("请稍后...");
+        progressDialog.setCancelable(false);
+
+
         dialog = new Dialog(getActivity(), R.style.Theme_AppCompat_NoActionBar);
         //填充对话框的布局
         view = LayoutInflater.from(getActivity()).inflate(R.layout.voice_dialog, null);
@@ -170,26 +185,6 @@ public class home_page extends Fragment implements View.OnClickListener {
                 break;
         }
     }
-    class NewsAsyncTask extends AsyncTask<String, Void, List<home_modes>> {
-        /**
-         * 每一个List都代表一行数据
-         *
-         * @param
-         * @return
-         */
-        @Override
-        protected List<home_modes> doInBackground(String... strings) {
-            return null;
-        }
-
-        protected void onPostExecute(List<home_modes> modes) {
-            super.onPostExecute(modes);
-            adapter = new home_modes_adapter(getContext(),R.layout.activity_home_modes, hm);
-            listView.setAdapter(adapter);
-            hm.clear();
-        }
-
-    }
     /*
 异步处理
 */
@@ -200,14 +195,14 @@ public class home_page extends Fragment implements View.OnClickListener {
             switch (msg.what)
             {
                 case SUCCESS:
-                    NewsAsyncTask s=new NewsAsyncTask();
-                    s.onPostExecute(hm);
+                    progressDialog.dismiss();
+                    adapter.notifyDataSetChanged();
                     break;
             }
         }
     };
 
-    private void getHome_modes() {
+    private void getHome_modes(final Handler handler) {
 
         new Thread(new Runnable() {
             @Override
@@ -222,7 +217,7 @@ public class home_page extends Fragment implements View.OnClickListener {
                 try {
                     response = client.newCall(request).execute();
                     String responseData = response.body().string();
-                    dealwith(responseData);
+                    dealwith(handler,responseData);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (Exception e) {
@@ -232,7 +227,7 @@ public class home_page extends Fragment implements View.OnClickListener {
         }).start();
     }
 
-    private void dealwith(String html) {
+    private void dealwith(Handler handler,String html) {
         String count=null;
         String url1=null;
         String pic_url = null;
@@ -275,11 +270,10 @@ public class home_page extends Fragment implements View.OnClickListener {
             home_modes h= new home_modes(pic_url,title,new_price,old_price,"券￥"+quan, count+"件", url1);
             hm.add(h);
         }
+        handler.sendEmptyMessage(0);
     }
 
-    private void initShowModes() {
-        handler.sendEmptyMessage(SUCCESS);
-    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -345,12 +339,12 @@ public class home_page extends Fragment implements View.OnClickListener {
             for (String key : mIatResults.keySet()) {
                 resultBuffer.append(mIatResults .get(key));
             }
-            search_main.searchkeyword=resultBuffer.toString();
-            if(search_main.searchkeyword==null)
+            SearchActivity.searchkeyword=resultBuffer.toString();
+            if(SearchActivity.searchkeyword==null)
             {
                 Toast.makeText(getActivity(), "你没有发出声音", Toast.LENGTH_SHORT).show();
             }else {
-                intent = new Intent(getActivity(), search_main.class);
+                intent = new Intent(getActivity(), SearchActivity.class);
 
                 startActivity(intent);
             }

@@ -6,6 +6,11 @@
     android:orientation="horizontal"
     >
     <LinearLayout
+        android:layout_width="10dp"
+        android:layout_height="220dp"
+        >
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="220dp"
         android:gravity="center"
@@ -21,14 +26,28 @@
         android:padding="5dp"
         android:orientation="vertical"
         >
-        <TextView
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.02"
+                >
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                >
+          <TextView
             android:id="@+id/shopname"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="京东商城"
             android:textSize="21sp"
-            android:gravity="center"
             />
+            </LinearLayout>
+        </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -48,38 +67,99 @@
             android:orientation="vertical"
             android:padding="10dp"
             >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                >
         <TextView
             android:id="@+id/title_shopping_car"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="false"
-            android:maxLines="4"
+            android:maxLines="3"
             android:ellipsize="end"
             android:textSize="15sp" />
-            <TextView
-                android:id="@+id/price_shopping_car"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:layout_marginTop="10dp"
-                />
-            <TextView
-                android:id="@+id/months_sales_shopping"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:layout_marginTop="3dp"
-                />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.7"
+                android:orientation="vertical"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    >
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.7"
+                        android:gravity="center"
+                        >
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        >
+                        <TextView
+                            android:id="@+id/price_shopping_car"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="13sp"
+                            android:textAlignment="textEnd"
+                            android:gravity="end" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    >
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.7"
+                        android:gravity="center"
+                        >
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        >
+                  <TextView
+                    android:id="@+id/months_sales_shopping"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="13sp"
+                      android:textAlignment="textEnd"
+                      android:gravity="end" />
+                    </LinearLayout>
+            </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="10dp"
+                >
             <Button
                 android:id="@+id/go_to_buy_1"
-                android:layout_width="120dp"
+                android:layout_width="match_parent"
                 android:layout_gravity="center"
-                android:layout_height="40dp"
+                android:layout_height="match_parent"
                 android:text="前往购买"
-                android:layout_marginTop="10dp"
                 android:background="@drawable/shape_button"
                 android:textColor="#FFF"
                 />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

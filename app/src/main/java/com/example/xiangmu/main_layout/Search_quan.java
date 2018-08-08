@@ -40,15 +40,20 @@ public class Search_quan extends AppCompatActivity implements View.OnClickListen
         initView();
         initListener();
         dialog.show();
-        getQuanModes();
-        getQuanModes1();
-        handler.sendEmptyMessage(SUCCESS);
+        adapter = new Search_quan_Adapter(Search_quan.this,R.layout.activity_quan,qm);
+        listView.setAdapter(adapter);
+        update();
+        qm.clear();
     }
 
     private void initListener() {
         return10.setOnClickListener(this);
     }
 
+    private void update() {
+        getQuanModes(handler);
+        getQuanModes1(handler);
+    }
     /*
    异步处理
     */
@@ -59,8 +64,8 @@ public class Search_quan extends AppCompatActivity implements View.OnClickListen
             switch (msg.what)
             {
                 case SUCCESS:
-                    NewsAsyncTask s=new NewsAsyncTask();
-                    s.onPostExecute(qm);
+                    dialog.dismiss();
+                    adapter.notifyDataSetChanged();
                     break;
                 case FAIL:
                     Toast.makeText(Search_quan.this, "存储失败!", Toast.LENGTH_SHORT).show();
@@ -69,7 +74,7 @@ public class Search_quan extends AppCompatActivity implements View.OnClickListen
         }
     };
 
-    public static void getQuanModes() {
+    public static void getQuanModes(final Handler handler) {
 
         new Thread(new Runnable() {
             @Override
@@ -84,7 +89,7 @@ public class Search_quan extends AppCompatActivity implements View.OnClickListen
                 try {
                     response = client.newCall(request).execute();
                     String responseData = response.body().string();
-                    dealwith(responseData);
+                    dealwith(handler,responseData);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (Exception e) {
@@ -93,7 +98,8 @@ public class Search_quan extends AppCompatActivity implements View.OnClickListen
             }
         }).start();
     }
-    private void getQuanModes1() {
+
+    private void getQuanModes1(final Handler handler) {
 
         new Thread(new Runnable() {
             @Override
@@ -108,7 +114,7 @@ public class Search_quan extends AppCompatActivity implements View.OnClickListen
                 try {
                     response = client.newCall(request).execute();
                     String responseData = response.body().string();
-                    dealwith1(responseData);
+                    dealwith1(handler,responseData);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (Exception e) {
@@ -117,7 +123,8 @@ public class Search_quan extends AppCompatActivity implements View.OnClickListen
             }
         }).start();
     }
-    public static void dealwith(String html) throws Exception{
+
+    public static void dealwith(Handler handler,String html) throws Exception{
         String count=null;
         String url1=null;
         String pic_url = null;
@@ -161,8 +168,9 @@ public class Search_quan extends AppCompatActivity implements View.OnClickListen
             Quan_Mode d= new Quan_Mode(pic_url, title ,new_price,old_price,quan, count, url1);
             qm.add(d);
         }
+        handler.sendEmptyMessage(0);
     }
-    public static void dealwith1(String html) throws Exception{
+    public static void dealwith1(Handler handler,String html) throws Exception{
 
         String count=null;
         String url1=null;
@@ -207,6 +215,7 @@ public class Search_quan extends AppCompatActivity implements View.OnClickListen
             Quan_Mode d= new Quan_Mode(pic_url, title ,new_price,old_price,quan, count, url1);
             qm.add(d);
         }
+        handler.sendEmptyMessage(0);
     }
 
     @Override
@@ -218,28 +227,6 @@ public class Search_quan extends AppCompatActivity implements View.OnClickListen
                 startActivity(intent);
                 break;
         }
-    }
-
-    class NewsAsyncTask extends AsyncTask<String, Void, List<Quan_Mode>> {
-        /**
-         * 每一个List都代表一行数据
-         *
-         * @param
-         * @return
-         */
-        @Override
-        protected List<Quan_Mode> doInBackground(String... strings) {
-            return null;
-        }
-
-        protected void onPostExecute(List<Quan_Mode> modes) {
-            super.onPostExecute(modes);
-                adapter = new Search_quan_Adapter(Search_quan.this,R.layout.activity_quan,qm);
-                listView.setAdapter(adapter);
-                dialog.dismiss();
-                qm.clear();
-            }
-
     }
 
 

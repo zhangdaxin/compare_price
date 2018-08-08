@@ -7,7 +7,7 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.example.xiangmu.main_layout.search_main;
+import com.example.xiangmu.main_layout.SearchActivity;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class ImageLoader {
             super.handleMessage(msg);
             if(mImageView.getTag().equals(mUrl)){
                 mImageView.setImageBitmap((Bitmap) msg.obj);
-                search_main.dialog.dismiss();
+                SearchActivity.dialog.dismiss();
             }
         }
     };

@@ -7,8 +7,6 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.example.xiangmu.main_layout.search_main;
-
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;

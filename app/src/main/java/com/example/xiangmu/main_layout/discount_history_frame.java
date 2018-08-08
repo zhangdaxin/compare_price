@@ -3,7 +3,6 @@ package com.example.xiangmu.main_layout;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.sax.Element;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -64,15 +63,13 @@ public class discount_history_frame extends Fragment implements View.OnClickList
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                discount_page1.dialog.show();
                 historical_item his=list.get(position);
                 discountkeyword=his.getItem();
-                progressDialog.show();
                 getDiscountModes();
                 Log.d("", "onItemClick: "+1111);
-                et.setText(discount_page1.discountkeyword);
+
                 replaceFragment(new Discount_show_modes());
-                progressDialog.dismiss();
-                Toast.makeText(getActivity(), his.getItem(), Toast.LENGTH_SHORT).show();
             }
         });
         list.clear();
@@ -134,7 +131,9 @@ public class discount_history_frame extends Fragment implements View.OnClickList
             }
         }).start();
     }
+
     public  void getDiscountModes() {
+        dm.clear();
         new Thread(new Runnable() {
             @Override
             public void run() {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -23,19 +24,49 @@
             android:layout_weight="0.5"
             android:layout_gravity="center"
             >
-            <CheckBox
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.015"
+                    android:gravity="center"
+                    >
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.1"
+                    android:gravity="center"
+                    >
+              <CheckBox
                 android:id="@+id/cb_choose_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="全选"
-                android:textColor="#000"
-                android:layout_marginLeft="10dp"
-                android:textSize="19sp"
-                />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.15"
+                    android:gravity="center"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="start"
+                        android:text="全选"
+                        android:gravity="center"
+                        android:textColor="#000"
+                        android:textSize="19sp"
+                        tools:ignore="RtlCompat" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
 
@@ -43,25 +74,30 @@
             android:id="@+id/delete"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.4"
             android:gravity="end"
             android:layout_gravity="center"
             >
             <Button
                 android:id="@+id/bt_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
                 android:text="删除"
                 android:textColor="#FFFFFF"
-                android:layout_marginRight="10dp"
                 android:background="@drawable/shape_button"
                 />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.08"
+            >
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.6"
+        android:layout_weight="0.7"
         >
     </LinearLayout>
 

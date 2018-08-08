@@ -1,6 +1,5 @@
-package com.example.xiangmu.discount;
+package com.example.xiangmu.compare_price;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,35 +14,42 @@ import android.widget.Toast;
 
 import com.example.xiangmu.Getdata;
 import com.example.xiangmu.R;
-import com.example.xiangmu.main_layout.discount_page1;
+import com.example.xiangmu.main_layout.SearchActivity;
 
-import java.util.List;
+import static com.example.xiangmu.Getdata.sp;
 
-import static com.example.xiangmu.main_layout.discount_page1.dm;
-
-public class Discount_show_modes extends Fragment {
-    public static final int SUCCESS=0;
-    public static final int FAIL=1;
+public class ShowDataFragment extends Fragment {
+    public static final int SUCCESS = 0;
+    public static final int FAIL = 1;
     private ListView listView;
-    private Discount_Mode_Adapter adapter;
+    private static SpusAdapter spusAdapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.activity_discount_list,container,false);
+        View view = inflater.inflate(R.layout.activity_show_modes, container, false);
         return view;
     }
+
+    public void update(){
+        Getdata.get(handler);
+    }
+
     /*
      异步处理
       */
-    Handler handler=new Handler()
-    {
+    public  Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what)
-            {
+            switch (msg.what) {
                 case SUCCESS:
-                    discount_page1.dialog.dismiss();
-                    adapter.notifyDataSetChanged();
+                    SearchActivity.dialog.dismiss();
+                    spusAdapter.notifyDataSetChanged();
                     break;
                 case FAIL:
                     Toast.makeText(getActivity(), "存储失败", Toast.LENGTH_SHORT).show();
@@ -52,21 +58,13 @@ public class Discount_show_modes extends Fragment {
         }
     };
 
-    public void update(){
-        discount_page1.getDiscountModes(handler);
-    }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initView();
-        adapter = new Discount_Mode_Adapter(getContext(),R.layout.activity_discount_modes,dm);
-        listView.setAdapter(adapter);
+        listView = getActivity().findViewById(R.id.modes);
+        spusAdapter = new SpusAdapter(getActivity(), R.layout.activity_modes, sp);
+        listView.setAdapter(spusAdapter);
         update();
-    }
-
-    private void initView() {
-        listView =getActivity().findViewById(R.id.discount_list);
     }
 
 }

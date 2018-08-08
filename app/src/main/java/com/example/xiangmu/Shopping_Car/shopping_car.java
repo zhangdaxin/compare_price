@@ -104,7 +104,7 @@ public class shopping_car extends Fragment {
                             String modeId = jsonObject.getString("pid");
 
                             // shopping_car_modes modes= new shopping_car_modes("http:" + pic_url, title, shop + ":", "价格为:￥" + price, "月销量: " + month_sales, url);
-                            shopping_car_modes modes = new shopping_car_modes(pic_url, title, shop + ":", "价格为:￥" + price, "月销量: " + month_sales, url, modeId, false);
+                            shopping_car_modes modes = new shopping_car_modes(pic_url, title, shop + ":", "价格为:￥" + price,  month_sales, url, modeId, false);
                             mos.add(modes);
 
                             handler.sendEmptyMessage(SUCCESS);
@@ -126,7 +126,6 @@ public class shopping_car extends Fragment {
         dialog.setTitle("加载中");
         dialog.setMessage("请稍后...");
         dialog.setCancelable(false);
-
     }
 
     public void replaceFragment(Fragment fragment)

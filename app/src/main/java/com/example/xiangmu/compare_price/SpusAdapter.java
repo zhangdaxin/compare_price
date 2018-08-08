@@ -16,12 +16,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.xiangmu.Ip;
 import com.example.xiangmu.Log_Regist_Forget.MainActivity;
 import com.example.xiangmu.R;
+import com.example.xiangmu.middle_commodity.Spus;
+
 import java.io.IOException;
 import java.util.List;
-import com.example.xiangmu.middle_commodity.Spus;
+
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -37,6 +40,7 @@ public class SpusAdapter extends ArrayAdapter<Spus> {
     public int resourceid;
     private Intent intent;
     List<Spus> sp;
+    ImageLoader mImageLoader;
 /*
 适配器
  */
@@ -44,6 +48,7 @@ public class SpusAdapter extends ArrayAdapter<Spus> {
         super(context,resourse,s);
         sp=s;
         resourceid=resourse;
+        mImageLoader=new ImageLoader();
     }
 
     @NonNull
@@ -156,6 +161,7 @@ public class SpusAdapter extends ArrayAdapter<Spus> {
             }
         }
     };
+
     class ViewHolder {
         ImageView img;
         TextView introduction1;

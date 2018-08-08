@@ -70,9 +70,6 @@ public class Discount_Mode_Adapter extends ArrayAdapter<Discount_Mode> {
         return view;
     }
 
-    //https://passport.jd.com/uc/login?ReturnUrl=https%3A%2F%2Forder.jd.com%2Fcenter%2Flist.action
-    //https://buyertrade.taobao.com/trade/itemlist/list_bought_items.htm?spm=a1z02.1.a2109.d1000368.a1c6782dXlABIJ&nekot=1470211439694
-
 
     class ViewHolder {
         ImageView img;

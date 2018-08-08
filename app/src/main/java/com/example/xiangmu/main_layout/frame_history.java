@@ -15,14 +15,11 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import com.example.xiangmu.Getdata;
 import com.example.xiangmu.Gethistorical_item;
 import com.example.xiangmu.Ip;
 import com.example.xiangmu.Log_Regist_Forget.MainActivity;
 import com.example.xiangmu.R;
-import com.example.xiangmu.compare_price.show_modes;
+import com.example.xiangmu.compare_price.ShowDataFragment;
 
 import java.io.IOException;
 
@@ -35,7 +32,7 @@ import okhttp3.Response;
 import static com.example.xiangmu.Gethistorical_item.list;
 
 public class frame_history extends Fragment implements View.OnClickListener {
-    public  ProgressDialog progressDialog;
+    public ProgressDialog progressDialog;
     EditText et;
     Button remove_history;
     @Nullable
@@ -58,12 +55,10 @@ public class frame_history extends Fragment implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 historical_item his=list.get(position);
-                search_main.searchkeyword=his.getItem();
-                search_main.dialog.show();
-                Getdata.get();
-                et.setText(search_main.searchkeyword);
-                replaceFragment(new show_modes());
-                Toast.makeText(getActivity(), his.getItem(), Toast.LENGTH_SHORT).show();
+                SearchActivity.searchkeyword=his.getItem();
+                SearchActivity.dialog.show();
+            //    et.setText(search_main.searchkeyword);
+                replaceFragment(new ShowDataFragment());
             }
         });
         list.clear();
@@ -80,9 +75,6 @@ public class frame_history extends Fragment implements View.OnClickListener {
         progressDialog .setCancelable(false);
 
         remove_history=getActivity().findViewById(R.id.remove_history);
-        //先获取当前布局的填充器
-        View view1 = LayoutInflater.from(getContext()).inflate(R.layout.activity_search_main, null);   //通过填充器获取另外一个布局的对象
-        et=view1.findViewById(R.id.search_keyword);
 }
 
     public void replaceFragment(Fragment fragment)

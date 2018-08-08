@@ -1,7 +1,7 @@
 package com.example.xiangmu.main_layout;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +29,7 @@ public class Save_9kuai9_main extends AppCompatActivity implements View.OnClickL
     public save_money_9kuai9_adapter adapter;
     public List<save_9kuai9> s9=new ArrayList<save_9kuai9>();
     public static final int SUCCESS=0;
+    public ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +37,16 @@ public class Save_9kuai9_main extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_save_9kuai9_main);
         initView();
         initListener();
-        getsave_9kuai9_Data();
-        show_9kuai9Data();
+        dialog.show();
+        adapter = new save_money_9kuai9_adapter(Save_9kuai9_main.this,R.layout.activity_save_9kuai9, s9);
+        listView.setAdapter(adapter);
+        update();
+        s9.clear();
     }
 
-    private void show_9kuai9Data() {
-        handler.sendEmptyMessage(SUCCESS);
+    private void update() {
+      getsave_9kuai9_Data(handler);
     }
-
 
     @Override
     public void onClick(View v) {
@@ -56,28 +59,38 @@ public class Save_9kuai9_main extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    class NewsAsyncTask extends AsyncTask<String, Void, List<save_9kuai9>> {
-        /**
-         * 每一个List都代表一行数据
-         *
-         * @param
-         * @return
-         */
-        @Override
-        protected List<save_9kuai9> doInBackground(String... strings) {
-            return null;
-        }
-
-        protected void onPostExecute(List<save_9kuai9> modes) {
-            super.onPostExecute(modes);
-            adapter = new save_money_9kuai9_adapter(Save_9kuai9_main.this,R.layout.activity_save_9kuai9, s9);
-            listView.setAdapter(adapter);
-            s9.clear();
-        }
-
+    private void initListener() {
+        return8.setOnClickListener(this);
     }
 
-    private void getsave_9kuai9_Data() {
+    private void initView() {
+        dialog=new ProgressDialog(this);
+        dialog.setTitle("加载中");
+        dialog.setMessage("请稍后...");
+        dialog.setCancelable(false);
+
+        listView=findViewById(R.id.list_9kuai9);
+        return8=findViewById(R.id.return8);
+    }
+
+    /*
+异步处理
+*/
+    Handler handler=new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what)
+            {
+                case SUCCESS:
+                    dialog.dismiss();
+                    adapter.notifyDataSetChanged();
+                    break;
+            }
+        }
+    };
+
+    private void getsave_9kuai9_Data(final Handler handler) {
 
         new Thread(new Runnable() {
             @Override
@@ -92,7 +105,7 @@ public class Save_9kuai9_main extends AppCompatActivity implements View.OnClickL
                 try {
                     response = client.newCall(request).execute();
                     String responseData = response.body().string();
-                    dealwith(responseData);
+                    dealwith(handler,responseData);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (Exception e) {
@@ -101,7 +114,8 @@ public class Save_9kuai9_main extends AppCompatActivity implements View.OnClickL
             }
         }).start();
     }
-    private void dealwith(String html) {
+
+    private void dealwith(Handler handler,String html) {
         String count=null;
         String url1=null;
         String pic_url = null;
@@ -117,57 +131,41 @@ public class Save_9kuai9_main extends AppCompatActivity implements View.OnClickL
             //   销量  领券前的价钱 领券后的价钱
             Elements elementsByClass = element.getElementsByClass("good-price");
             for (org.jsoup.nodes.Element element2 : elementsByClass) {
-                new_price=element2.getElementsByClass("price-current").text();
-                new_price=new_price+"领券后";
+                new_price = element2.getElementsByClass("price-current").text();
+                new_price = new_price + "领券后";
 
-                old_price=element2.getElementsByClass("price-old").text();
-                quan=element2.getElementsByClass("item-coupon mui-act-item-couponColor").text();
-                quan=quan.substring(0,quan.length()-1);
+                old_price = element2.getElementsByClass("price-old").text();
+                quan = element2.getElementsByClass("item-coupon mui-act-item-couponColor").text();
+                if (quan.equals("")||quan==null) {
+                continue;
+                }else{
+                    quan=quan.substring(0,quan.length()-1);
+                }
                 count = element2.getElementsByClass("sold").text();
             }
             //   title
             Elements elementsByClass1 = element.getElementsByClass("good-title");
             for (org.jsoup.nodes.Element element2 : elementsByClass1) {
-                title= element2.getElementsByTag("a").text();
+                title = element2.getElementsByTag("a").text();
             }
 
             //   pic_url
             Elements elementsByClass2 = element.getElementsByClass("good-pic");
             for (org.jsoup.nodes.Element element2 : elementsByClass2) {
-                pic_url= element2.getElementsByTag("img").attr("data-original");
+                pic_url = element2.getElementsByTag("img").attr("data-original");
             }
             //url
             Elements elementsByClass3 = element.getElementsByClass("lingquan");
             for (org.jsoup.nodes.Element element2 : elementsByClass3) {
-                url1= element2.getElementsByTag("a").attr("href");
-                url1="http://www.ataoju.com"+url1;
+                url1 = element2.getElementsByTag("a").attr("href");
+                url1 = "http://www.ataoju.com" + url1;
             }
-            save_9kuai9 s= new save_9kuai9(pic_url,title,new_price,old_price,quan, count, url1);
-            s9.add(s);
+            if (!quan.equals("") && !pic_url.equals("") && !old_price.equals("")) {
+                save_9kuai9 s = new save_9kuai9(pic_url, title, new_price, old_price, quan, count, url1);
+                s9.add(s);
+            }
         }
-    }
-    private void initListener() {
-   return8.setOnClickListener(this);
+        handler.sendEmptyMessage(0);
     }
 
-    private void initView() {
-        listView=findViewById(R.id.list_9kuai9);
-        return8=findViewById(R.id.return8);
-    }
-    /*
-异步处理
-*/
-    Handler handler=new Handler()
-    {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what)
-            {
-                case SUCCESS:
-                    NewsAsyncTask s=new NewsAsyncTask();
-                    s.onPostExecute(s9);
-                    break;
-            }
-        }
-    };
 }

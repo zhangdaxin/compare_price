@@ -74,9 +74,9 @@
         </provider>
 
         <activity android:name=".main_layout.alter_password" />
-        <!-- <activity android:name=".compare_price.show_modes" /> -->
+        <!-- <activity android:name=".compare_prShowDataFragmentodes" /> -->
         <activity android:name=".main_layout.discount_page1" />
-        <activity android:name=".main_layout.search_main" />
+        <activity android:name=".main_layout.SearchActivity" />
         <activity android:name=".Mall_navigation.mall_navigation" />
         <!-- <activity -->
         <!-- android:name=".Shopping_Car.null_modes" -->

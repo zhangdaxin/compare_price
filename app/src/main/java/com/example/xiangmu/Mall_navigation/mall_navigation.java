@@ -33,6 +33,7 @@ public class mall_navigation extends AppCompatActivity implements View.OnClickLi
         jingdong.setOnClickListener(this);
         alibaba.setOnClickListener(this);
         suningyigou.setOnClickListener(this);
+        return9.setOnClickListener(this);
     }
 
     private void initView() {
@@ -79,6 +80,7 @@ public class mall_navigation extends AppCompatActivity implements View.OnClickLi
                 startActivity(intent);//将Intent传递给Activity
                 break;
             case R.id.return9:
+                main_layout.choose=1;
                 intent=new Intent(mall_navigation.this,main_layout.class);
                 startActivity(intent);
                 break;

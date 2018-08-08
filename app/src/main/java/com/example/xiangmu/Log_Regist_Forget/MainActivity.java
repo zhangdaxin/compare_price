@@ -114,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login_1:
-
                 progressDialog.show();
                 final String lg_phone=phone1.getText().toString();
                 final String lg_password=password.getText().toString();

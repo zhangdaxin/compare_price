@@ -3,6 +3,7 @@ package com.example.xiangmu.main_layout;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -81,7 +82,6 @@ public class discount_page1 extends AppCompatActivity implements View.OnClickLis
                 {
                     dialog.show();
                     postHistory();
-                    getDiscountModes();
                     replaceFragment(new Discount_show_modes());
                 }else{
                     Toast.makeText(this, "你没有输入想要查询的商品!", Toast.LENGTH_SHORT).show();
@@ -96,7 +96,8 @@ public class discount_page1 extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    public static void getDiscountModes() {
+    public static void getDiscountModes(final Handler handler) {
+        dm.clear();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -110,7 +111,7 @@ public class discount_page1 extends AppCompatActivity implements View.OnClickLis
                 try {
                     response = client.newCall(request).execute();
                     String responseData = response.body().string();
-                    dealwith(responseData);
+                    dealwith(handler,responseData);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (Exception e) {
@@ -119,7 +120,7 @@ public class discount_page1 extends AppCompatActivity implements View.OnClickLis
             }
         }).start();
     }
-    public static void dealwith(String html) throws Exception {
+    public static void dealwith(Handler handler,String html) throws Exception {
         String month_sales=null;
         String url1=null;
         String pic_url = null;
@@ -158,6 +159,7 @@ public class discount_page1 extends AppCompatActivity implements View.OnClickLis
             Discount_Mode d= new Discount_Mode(pic_url, title ,new_price,old_price,month_sales+"件",url1);
             dm.add(d);
         }
+        handler.sendEmptyMessage(0);
     }
 
     private void postHistory() {

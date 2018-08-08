@@ -23,6 +23,13 @@
             android:layout_weight="0.5"
             android:layout_gravity="center"
             >
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:layout_gravity="center"
+            >
+        </LinearLayout>
         <ImageView
             android:id="@+id/return8"
             android:layout_width="29dp"
@@ -49,9 +56,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
     <ListView
         android:id="@+id/list_9kuai9"
         android:layout_width="match_parent"

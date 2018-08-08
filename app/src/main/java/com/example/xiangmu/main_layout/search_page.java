@@ -41,7 +41,7 @@ public class search_page extends Fragment implements View.OnClickListener {
         switch (v.getId())
         {
             case R.id.search_keyword1:
-                intent =new Intent(getActivity(),search_main.class);
+                intent =new Intent(getActivity(),SearchActivity.class);
                 startActivity(intent);
                 break;
         }
