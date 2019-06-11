@@ -38,121 +38,121 @@ public class Getdata {
     public static void get(final Handler handler) {
         sp.clear();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder()
-                        .url("https://s.taobao.com/search?q=" + SearchActivity.searchkeyword)
-                        .build();
-                try {
-                    Response response = client.newCall(request).execute();
-                    responseData = response.body().string();
-                    String s = "g_page_config";
-                    String s1 = "g_srp_loadCss";
-                    /*
-                    获取完数据截取数据
-                     */
-                    responseData = responseData.substring(responseData.indexOf(s));
-                    responseData = responseData.substring(0, responseData.indexOf(s1));
-                    Log.d("", "run: " + responseData);
-
-                    if (responseData.contains("\"pageName\":\"spulist\"")) {
-                        responseData = responseData.substring(responseData.indexOf("= ") + 2);
-                        responseData = responseData.substring(0, responseData.indexOf("};") + 1);
-                        responseData = responseData.substring(responseData.indexOf("grid") - 1);
-                        responseData = "{" + responseData.substring(0, responseData.indexOf("header") - 2) + "}";
-                        Log.d("result:", "run:" + responseData);
-                        MyPojo m = com.alibaba.fastjson.JSON.parseObject(responseData, MyPojo.class);
-                        Spus[] modes = m.getGrid().getData().getSpus();
-
-                        for (int i = 0; i < (modes.length >= 10 ? 10 : modes.length); i++) {
-                            String pic_url = modes[i].getPic_url();
-                            String title = modes[i].getTitle();
-                            Double price = modes[i].getPrice();
-                            String month_sales = modes[i].getMonth_sales();
-                            String url = "http:" + modes[i].getUrl();
-                            String shop = "淘宝商城";
-                            if (!pic_url.equals("") && !price.equals("")) {
-                                Spus spus = new Spus("http:" + pic_url, title, shop + ":",price, "月销量: " + month_sales, url);
-                                sp.add(spus);
-                            }
-                        }
-                        Collections.sort(sp, new Sort());
-                        handler.sendEmptyMessage(0);
-                        Log.d("", "run: " + m);
-                    } else {
-                        responseData = responseData.substring(responseData.indexOf("= ") + 2);
-                        responseData = responseData.substring(0, responseData.indexOf("};") + 1);
-                        responseData = responseData.substring(responseData.indexOf("itemlist") - 1);
-                        responseData = "{" + responseData.substring(0, responseData.indexOf("bottomsearch") - 2) + "}";
-                        Log.d("result:", "run:" + responseData);
-                        JsonRootBean j = com.alibaba.fastjson.JSON.parseObject(responseData, JsonRootBean.class);
-                        Auctions[] au = j.getItemlist().getData().getAuctions();
-
-                        for (int i = 0; i <= (au.length > 10 ? 10 : au.length); i++) {
-                            String pic_url = au[i].getPic_url();
-                            String title = au[i].getRaw_title();
-                            String price = au[i].getView_price();
-                            Log.d("", "run: "+price);
-                            String month_sales = au[i].getView_sales();
-                            month_sales = month_sales.substring(0, month_sales.indexOf("人"));
-                            String url = "http:" + au[i].getDetail_url();
-                            String shop = "淘宝商城";
-                            Double price1=Double.parseDouble(price);
-                            if (!pic_url.equals("")&&!price.equals(""))
-                            {
-                                Spus spus = new Spus("http:" + pic_url, title, shop + ":",price1, "总销量: " + month_sales, url);
-                                sp.add(spus);
-                            }
-                        }
-                        Collections.sort(sp, new Sort());
-                        handler.sendEmptyMessage(0);
-                        Log.d("", "run: " + j);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {
-//                HttpURLConnection connection = null;
-//                BufferedReader reader = null;
+//
+//                OkHttpClient client = new OkHttpClient();
+//                Request request = new Request.Builder()
+//                        .url("https://s.taobao.com/search?q=" + SearchActivity.searchkeyword)
+//                        .build();
 //                try {
-//                    URL url = new URL("https://list.tmall.com/search_product.htm?q=电视");
-//                    connection = (HttpURLConnection) url.openConnection();
-//                    connection.setRequestMethod("GET");
-//                    connection.setConnectTimeout(8000);
-//                    connection.setReadTimeout(8000);
-//                    InputStream in = connection.getInputStream();
-//                    reader = new BufferedReader(new InputStreamReader(in));
-//                    StringBuilder response = new StringBuilder();
-//                    String line;
-//                    while ((line = reader.readLine()) != null) {
-//                        response.append(line);
-//                    }
-//                    String result = response.toString();
-//                    dealwith3(handler,result);
-//                    Log.d("result", "run: " + result);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                } finally {
-//                    if (reader != null) {
-//                        try {
-//                            reader.close();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
+//                    Response response = client.newCall(request).execute();
+//                    responseData = response.body().string();
+//                    String s = "g_page_config";
+//                    String s1 = "g_srp_loadCss";
+//                    /*
+//                    获取完数据截取数据
+//                     */
+//                    responseData = responseData.substring(responseData.indexOf(s));
+//                    responseData = responseData.substring(0, responseData.indexOf(s1));
+//                    Log.d("", "run: " + responseData);
+//
+//                    if (responseData.contains("\"pageName\":\"spulist\"")) {
+//                        responseData = responseData.substring(responseData.indexOf("= ") + 2);
+//                        responseData = responseData.substring(0, responseData.indexOf("};") + 1);
+//                        responseData = responseData.substring(responseData.indexOf("grid") - 1);
+//                        responseData = "{" + responseData.substring(0, responseData.indexOf("header") - 2) + "}";
+//                        Log.d("result:", "run:" + responseData);
+//                        MyPojo m = com.alibaba.fastjson.JSON.parseObject(responseData, MyPojo.class);
+//                        Spus[] modes = m.getGrid().getData().getSpus();
+//
+//                        for (int i = 0; i < (modes.length >= 10 ? 10 : modes.length); i++) {
+//                            String pic_url = modes[i].getPic_url();
+//                            String title = modes[i].getTitle();
+//                            Double price = modes[i].getPrice();
+//                            String month_sales = modes[i].getMonth_sales();
+//                            String url = "http:" + modes[i].getUrl();
+//                            String shop = "淘宝商城";
+//                            if (!pic_url.equals("") && !price.equals("")) {
+//                                Spus spus = new Spus("http:" + pic_url, title, shop + ":",price, "月销量: " + month_sales, url);
+//                                sp.add(spus);
+//                            }
 //                        }
+//                        Collections.sort(sp, new Sort());
+//                        handler.sendEmptyMessage(0);
+//                        Log.d("", "run: " + m);
+//                    } else {
+//                        responseData = responseData.substring(responseData.indexOf("= ") + 2);
+//                        responseData = responseData.substring(0, responseData.indexOf("};") + 1);
+//                        responseData = responseData.substring(responseData.indexOf("itemlist") - 1);
+//                        responseData = "{" + responseData.substring(0, responseData.indexOf("bottomsearch") - 2) + "}";
+//                        Log.d("result:", "run:" + responseData);
+//                        JsonRootBean j = com.alibaba.fastjson.JSON.parseObject(responseData, JsonRootBean.class);
+//                        Auctions[] au = j.getItemlist().getData().getAuctions();
+//
+//                        for (int i = 0; i <= (au.length > 10 ? 10 : au.length); i++) {
+//                            String pic_url = au[i].getPic_url();
+//                            String title = au[i].getRaw_title();
+//                            String price = au[i].getView_price();
+//                            Log.d("", "run: "+price);
+//                            String month_sales = au[i].getView_sales();
+//                            month_sales = month_sales.substring(0, month_sales.indexOf("人"));
+//                            String url = "http:" + au[i].getDetail_url();
+//                            String shop = "淘宝商城";
+//                            Double price1=Double.parseDouble(price);
+//                            if (!pic_url.equals("")&&!price.equals(""))
+//                            {
+//                                Spus spus = new Spus("http:" + pic_url, title, shop + ":",price1, "总销量: " + month_sales, url);
+//                                sp.add(spus);
+//                            }
+//                        }
+//                        Collections.sort(sp, new Sort());
+//                        handler.sendEmptyMessage(0);
+//                        Log.d("", "run: " + j);
 //                    }
-//                    if (connection != null) {
-//                        connection.disconnect();
-//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
 //                }
 //            }
 //        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection connection = null;
+                BufferedReader reader = null;
+                try {
+                    URL url = new URL("https://list.tmall.com/search_product.htm?q="+ SearchActivity.searchkeyword );
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.setConnectTimeout(8000);
+                    connection.setReadTimeout(8000);
+                    InputStream in = connection.getInputStream();
+                    reader = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    String result = response.toString();
+                    dealwith3(handler,result);
+                    Log.d("result", "run: " + result);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (reader != null) {
+                        try {
+                            reader.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (connection != null) {
+                        connection.disconnect();
+                    }
+                }
+            }
+        }).start();
 
         new Thread(new Runnable() {
             @Override

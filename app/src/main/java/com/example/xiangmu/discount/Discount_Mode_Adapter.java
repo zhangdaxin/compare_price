@@ -13,7 +13,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.xiangmu.R;
+
 import java.util.List;
 
 import static com.example.xiangmu.main_layout.discount_page1.dm;
@@ -60,11 +63,15 @@ public class Discount_Mode_Adapter extends ArrayAdapter<Discount_Mode> {
         viewHolder.go_to_get.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent=new Intent();//创建Intent对象
-                intent.setAction(Intent.ACTION_VIEW);//为Intent设置动作
-                intent.setData(Uri.parse(dm.get(position).getUrl()));//为Intent设置数据
-                Log.d("", "onClick: "+dm.get(position).getUrl());
-                getContext().startActivity(intent);//将Intent传递给Activity
+                if (dm.get(position).getUrl() != null){
+                    intent = new Intent();//创建Intent对象
+                    intent.setAction(Intent.ACTION_VIEW);//为Intent设置动作
+                    intent.setData(Uri.parse(dm.get(position).getUrl()));//为Intent设置数据
+                    Log.d("", "onClick: " + dm.get(position).getUrl());
+                    getContext().startActivity(intent);//将Intent传递给Activity
+                } else{
+                    Toast.makeText(getContext(), "领取链接已经不在!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return view;

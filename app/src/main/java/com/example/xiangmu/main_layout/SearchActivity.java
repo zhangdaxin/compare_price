@@ -81,7 +81,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 if (!searchkeyword.equals("")) {
                     dialog.show();
                     postHistory();
-                   //fragment.update();
+//                   fragment.update();
                     replaceFragment(new ShowDataFragment());
                 } else {
                     Toast.makeText(this, "你没有输入想要查询的商品!", Toast.LENGTH_SHORT).show();

@@ -19,6 +19,7 @@ import com.example.xiangmu.Getdata;
 import com.example.xiangmu.Ip;
 import com.example.xiangmu.Log_Regist_Forget.MainActivity;
 import com.example.xiangmu.R;
+import com.example.xiangmu.compare_price.ShowDataFragment;
 import com.example.xiangmu.compare_price.show_modes;
 
 import java.util.ArrayList;
@@ -83,7 +84,7 @@ public class search_main extends AppCompatActivity implements View.OnClickListen
                 {
                     dialog.show();
                     postHistory();
-                    Getdata.get();
+                    new ShowDataFragment().update();
                     replaceFragment(new show_modes());
                 }else{
                     Toast.makeText(this, "你没有输入想要查询的商品!", Toast.LENGTH_SHORT).show();

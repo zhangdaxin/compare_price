@@ -137,26 +137,30 @@ public class discount_page1 extends AppCompatActivity implements View.OnClickLis
                 new_price=element2.getElementsByClass("price-current").text();
                 new_price=new_price+"领券后";
                 old_price=element2.getElementsByClass("price-old").text();
+                month_sales = element2.getElementsByClass("sold").text();
+                url1 = element2.getElementsByTag("a").attr("href");
+                url1 = "http://www.suiyizhe.com" + url1;
             }
             //   title
             Elements elementsByClass1 = element.getElementsByClass("good-title");
             for (org.jsoup.nodes.Element element2 : elementsByClass1) {
                 title= element2.getElementsByTag("a").text();
-                month_sales = element2.getElementsByClass("sold").text();
+
             }
 
             //   pic_url
             Elements elementsByClass2 = element.getElementsByClass("good-pic");
             for (org.jsoup.nodes.Element element2 : elementsByClass2) {
                 pic_url= element2.getElementsByTag("img").attr("data-original");
+
             }
             //url
-            Elements elementsByClass3 = element.getElementsByClass("lingquan");
-            for (org.jsoup.nodes.Element element2 : elementsByClass3) {
-                url1= element2.getElementsByTag("a").attr("href");
-                url1="http://www.suiyizhe.com"+url1;
-            }
-            Discount_Mode d= new Discount_Mode(pic_url, title ,new_price,old_price,month_sales+"件",url1);
+//            Elements elementsByClass3 = element.getElementsByClass("lingquan");
+//            for (org.jsoup.nodes.Element element2 : elementsByClass3) {
+//                url1= element2.getElementsByTag("a").attr("href");
+//                url1 = "http://www.suiyizhe.com" + url1;
+//            }
+            Discount_Mode d = new Discount_Mode(pic_url, title, new_price, old_price, month_sales.substring(0, month_sales.indexOf("人")) + "件", url1);
             dm.add(d);
         }
         handler.sendEmptyMessage(0);

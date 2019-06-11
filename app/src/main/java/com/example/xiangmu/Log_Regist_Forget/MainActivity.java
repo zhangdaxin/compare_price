@@ -174,7 +174,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                         handler.sendEmptyMessage(SUCCESS);
                                     } else if(id==0||phone.equals("")){
-
                                         handler.sendEmptyMessage(FAIL);
                                     }
                                 } else {
@@ -192,7 +191,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     progressDialog.dismiss();
                     Toast.makeText(this, "手机号码输入错误!请重新输入!", Toast.LENGTH_SHORT).show();
                 }
-
                 break;
 
             case R.id.forget_key:
@@ -208,22 +206,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
         }
    }
-
 }
-//                JSONObject jsonObject=new JSONObject();
-//                try {
-//                    jsonObject.put("username",lg_username);
-//                    jsonObject.put("password",lg_password);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                JSON.post("", jsonObject.toString(), new Callback() {
-//                    @Override
-//                    public void onFailure(Call call, IOException e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onResponse(Call call, Response response) throws IOException {
-//String result = response.body().string();
